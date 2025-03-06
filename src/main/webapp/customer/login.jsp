@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: haich_ahutcq2
-  Date: 05/03/2025
-  Time: 09:38
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -14,27 +8,39 @@
   <title>Trang Đăng Nhập</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .login-container {
-      max-width: 400px;
-      margin: 100px auto;
+    /* Modal đăng nhập */
+    .modal-content {
+      border-radius: 10px;
     }
-    .social-login .btn {
-      width: 100%;
-      margin-bottom: 10px;
+
+    /* Form */
+    .form-control {
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
-    .facebook-btn,.facebook-btn:hover {
+    .btn-primary {
+      background-color: #005bac;
+      border-color: #005bac;
+    }
+    .btn-primary:hover {
+      background-color: #003f7f;
+    }
+
+    /* Nút đăng nhập Facebook & Google */
+    .facebook-btn, .facebook-btn:hover {
       background-color: #3b5998;
       border-color: #3b5998;
     }
-    .facebook-btn:hover{
-      scale: 1.1;
+    .facebook-btn:hover {
+      transform: scale(1.05);
     }
-    .google-btn,.google-btn:hover {
+
+    .google-btn, .google-btn:hover {
       background-color: #db4437;
       border-color: #db4437;
     }
     .google-btn:hover {
-      scale: 1.1;
+      transform: scale(1.05);
     }
   </style>
 </head>
