@@ -42,14 +42,6 @@
 <div class="login-container">
   <form class="p-4 border rounded">
     <h3 class="text-center mb-4">Đăng nhập</h3>
-    <div class="role-select-container mb-3">
-      <label for="role" class="form-label">Chọn vai trò:</label>
-      <select id="role" name="role" class="form-select">
-        <option value="customer">Khách hàng</option>
-        <option value="sale-staff">Nhân viên</option>
-        <option value="admin">Admin</option>
-      </select>
-    </div>
     <div class="mb-3">
       <input type="text" class="form-control" placeholder="Tài khoản" required>
     </div>
