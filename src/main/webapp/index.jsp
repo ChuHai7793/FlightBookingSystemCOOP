@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Trang Chủ</a>
+                        <a class="nav-link" href="http://localhost:8080/">Trang Chủ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Giới Thiệu</a>
@@ -33,10 +33,48 @@
                         <a class="nav-link" href="#">Liên Hệ</a>
                     </li>
                 </ul>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-outline-primary btn-register">Đăng ký</button>
-                    <button class="btn btn-primary btn-login">Đăng nhập</button>
-                </div>
+<%--                <div class="d-flex gap-2">--%>
+<%--                    <button class="btn btn-outline-primary btn-register" onclick="window.location.href='customer/register.jsp'">--%>
+<%--                        Đăng ký--%>
+<%--                    </button>--%>
+<%--                    <button class="btn btn-primary btn-login" onclick="window.location.href='customer/login.jsp'">--%>
+<%--                        Đăng nhập--%>
+<%--                    </button>--%>
+<%--                </div>--%>
+
+
+<%--                <div class="d-flex gap-2">--%>
+<%--                    <select class="form-select w-auto" onchange="window.location.href=this.value;">--%>
+<%--                        <option value="" selected>Tên</option>--%>
+<%--                        <option value="" >Thông tin cá nhân</option>--%>
+<%--                        <option value="logout.html">Đăng xuất</option>--%>
+<%--                    </select>--%>
+<%--                </div>--%>
+                <c:choose>
+                    <!-- Nếu userId là null (chưa đăng nhập) -->
+                    <c:when test="${empty userId}">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary btn-register" onclick="window.location.href='customer/register.jsp'">
+                                Đăng ký
+                            </button>
+                            <button class="btn btn-primary btn-login" onclick="window.location.href='customer/login.jsp'">
+                                Đăng nhập
+                            </button>
+                        </div>
+                    </c:when>
+
+                    <!-- Nếu userId có giá trị (đã đăng nhập) -->
+                    <c:otherwise>
+                        <div class="d-flex gap-2">
+                            <select class="form-select w-auto" onchange="window.location.href=this.value;">
+                                <option value="" selected>Tên</option>
+                                <option value="">Thông tin cá nhân</option>
+                                <option value="logout.html">Đăng xuất</option>
+                            </select>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
         </div>
     </nav>
@@ -44,7 +82,7 @@
 
 <!-- Form đặt vé -->
 <div class="container mt-5">
-    <form action="">
+    <form action="/customer" method="get">
         <fieldset class="border p-4 rounded">
             <legend class="float-none w-auto px-2">Đặt vé</legend>
 
@@ -64,23 +102,23 @@
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="name" class="form-label">Điểm đi</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Nhập điểm đi">
+                    <label for="departure_location" class="form-label">Điểm đi</label>
+                    <input required type="text" class="form-control" id="departure_location" name="departure_location" placeholder="Nhập điểm đi">
                 </div>
                 <div class="col-md-6">
-                    <label for="email" class="form-label">Điểm đến</label>
-                    <input type="text" class="form-control" id="email" name="destination" placeholder="Nhập điểm đến">
+                    <label for="arrival_location" class="form-label">Điểm đến</label>
+                    <input required type="text" class="form-control" id="arrival_location" name="arrival_location" placeholder="Nhập điểm đến">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="leaving-date" class="form-label">Ngày đi</label>
-                    <input type="date" class="form-control" id="leaving-date" name="leaving-date">
+                    <label for="leaving_date" class="form-label">Ngày đi</label>
+                    <input type="date" class="form-control" id="leaving_date" name="leaving_date">
                 </div>
                 <div class="col-md-6">
-                    <label for="return-date" class="form-label">Ngày về</label>
-                    <input type="date" class="form-control" id="return-date" name="return-date">
+                    <label for="return_date" class="form-label">Ngày về</label>
+                    <input type="date" class="form-control" id="return_date" name="return_date">
                 </div>
             </div>
 
@@ -116,8 +154,9 @@
 <!-- Bootstrap JS và Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-<script>
 
+
+<script>
     const ticketTypeRadios = document.querySelectorAll('input[name="ticket_type"]');
     const returnDateInput = document.getElementById("return-date");
 
