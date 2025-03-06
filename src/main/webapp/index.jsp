@@ -82,7 +82,7 @@
 
 <!-- Form đặt vé -->
 <div class="container mt-5">
-    <form action="">
+    <form action="/customer" method="get">
         <fieldset class="border p-4 rounded">
             <legend class="float-none w-auto px-2">Đặt vé</legend>
 
@@ -102,23 +102,23 @@
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="name" class="form-label">Điểm đi</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Nhập điểm đi">
+                    <label for="departure_location" class="form-label">Điểm đi</label>
+                    <input required type="text" class="form-control" id="departure_location" name="departure_location" placeholder="Nhập điểm đi">
                 </div>
                 <div class="col-md-6">
-                    <label for="email" class="form-label">Điểm đến</label>
-                    <input type="text" class="form-control" id="email" name="destination" placeholder="Nhập điểm đến">
+                    <label for="arrival_location" class="form-label">Điểm đến</label>
+                    <input required type="text" class="form-control" id="arrival_location" name="arrival_location" placeholder="Nhập điểm đến">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="leaving-date" class="form-label">Ngày đi</label>
-                    <input type="date" class="form-control" id="leaving-date" name="leaving-date">
+                    <label for="leaving_date" class="form-label">Ngày đi</label>
+                    <input type="date" class="form-control" id="leaving_date" name="leaving_date">
                 </div>
                 <div class="col-md-6">
-                    <label for="return-date" class="form-label">Ngày về</label>
-                    <input type="date" class="form-control" id="return-date" name="return-date">
+                    <label for="return_date" class="form-label">Ngày về</label>
+                    <input type="date" class="form-control" id="return_date" name="return_date">
                 </div>
             </div>
 
