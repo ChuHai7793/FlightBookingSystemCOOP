@@ -1,4 +1,6 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -75,15 +77,45 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td class="text-center">Đà Nẵng</td>
-          <td class="text-center">Hồ Chí Minh</td>
-          <td class="text-center">15/05/2023</td>
-          <td class="text-center">25/05/2023</td>
-          <td class="text-center">1,000,000</td>
-          <td class="text-center">Đã thanh toán </td>
 
-        </tr>
+<%--        <c:forEach var="user" items="${listUser}">--%>
+<%--          <tr>--%>
+<%--            <td><c:out value="${user.id}"/></td>--%>
+<%--            <td><c:out value="${user.name}"/></td>--%>
+<%--            <td><c:out value="${user.email}"/></td>--%>
+<%--            <td><c:out value="${user.country}"/></td>--%>
+<%--            <td>--%>
+<%--              <a href="/?action=edit&id=${user.id}">Edit</a>--%>
+<%--              <a href="/?action=delete&id=${user.id}">Delete</a>--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--              <button onclick="jumpToEditUserPage(${user.id})"> Edit </button>--%>
+<%--              <button onclick="deleteUser(${user.id})"> Delete </button>--%>
+<%--            </td>--%>
+<%--          </tr>--%>
+<%--        </c:forEach>--%>
+
+        <c:forEach var="transaction_history" items="${transaction_histories}">
+          <tr>
+            <td class="text-center">${transaction_history.departure_location}</td>
+            <td class="text-center">${transaction_history.arrival_location}</td>
+            <td class="text-center">${transaction_history.booking_date}</td>
+            <td class="text-center">${transaction_history.travel_date}</td>
+            <td class="text-center">${transaction_history.price}</td>
+            <td class="text-center">${transaction_history.status}</td>
+          </tr>
+        </c:forEach>
+
+
+<%--        <tr>--%>
+<%--          <td class="text-center">Đà Nẵng</td>--%>
+<%--          <td class="text-center">Hồ Chí Minh</td>--%>
+<%--          <td class="text-center">15/05/2023</td>--%>
+<%--          <td class="text-center">25/05/2023</td>--%>
+<%--          <td class="text-center">1,000,000</td>--%>
+<%--          <td class="text-center">Đã thanh toán </td>--%>
+<%--        </tr>--%>
+
         </tbody>
       </table>
     </div>
