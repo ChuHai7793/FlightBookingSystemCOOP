@@ -33,6 +33,7 @@
                 </ul>
                 <select class="form-select w-auto" onchange="window.location.href=this.value;">
                     <option value="" selected>Tên</option>
+                    <option value="" >Thông tin cá nhân</option>
                     <option value="logout.html">Đăng xuất</option>
                 </select>
             </div>

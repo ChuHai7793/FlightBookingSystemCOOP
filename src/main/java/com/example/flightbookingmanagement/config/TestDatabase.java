@@ -1,4 +1,4 @@
-package com.example.flightbookingsystem.service.DAO;
+package com.example.flightbookingmanagement.config;
 
 import java.sql.Connection;
 import java.sql.SQLException;
