@@ -26,8 +26,7 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String departureDate = req.getParameter("leaving_date");
-//        System.out.println("leaving_date from request: " + departureDate);
+
         String action = req.getParameter("action");
         if (action == null) {
             action = "";
@@ -36,6 +35,43 @@ public class CustomerServlet extends HttpServlet {
         try {
             switch (action) {
                 case "searchTicket":
+
+                    CustomerService.updateSearchTicketForm(req);
+                    CustomerService.selectAllFlightsFromSearchForm(req);
+                    CustomerService.jumpToOneWayTicket(req, resp);
+                    break;
+                case "edit":
+
+                    break;
+                case "delete":
+
+                    break;
+
+                case "findByCountry":
+
+                    break;
+                case "sortByName":
+
+                    break;
+                default:
+
+                    break;
+            }
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        System.out.println(action);
+        try {
+            switch (action) {
+                case "sort":
 
                     CustomerService.updateSearchTicketForm(req);
                     CustomerService.selectAllFlightsFromSearchForm(req);

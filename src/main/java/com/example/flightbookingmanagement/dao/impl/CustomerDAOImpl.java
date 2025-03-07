@@ -95,7 +95,6 @@ public class CustomerDAOImpl implements ICustomerDAO {
         } catch (SQLException e) {
             throw new SQLException(e);
         }
-        System.out.print(searchedTickets.isEmpty());
         return searchedTickets;
     }
 

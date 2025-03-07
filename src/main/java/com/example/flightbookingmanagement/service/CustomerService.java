@@ -4,6 +4,7 @@ import com.example.flightbookingmanagement.dao.impl.CustomerDAOImpl;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
 import com.example.flightbookingmanagement.dto.SearchedTicketFormDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
+import com.example.flightbookingmanagement.utils.FlightsSorter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -57,19 +60,23 @@ public class CustomerService {
         String departure_location = request.getParameter("departure_location");
         String arrival_location = request.getParameter("arrival_location");
         String departure_time = request.getParameter("leaving_date");
+        String orderBy = null;
 
         List<SearchedTicketDTO> searchedTickets = customerDAO.selectFlightsFromSearchedForm(departure_location,
                 arrival_location,departure_time);
+        try{
+            orderBy = request.getParameter("orderBy");
+        } catch (RuntimeException ignored){}
+        System.out.print(orderBy);
+        FlightsSorter.sortSearchedTicketsByOrder(searchedTickets, orderBy);
 
         request.setAttribute("searchedTickets", searchedTickets);
 
-
     }
-
     public void jumpToOneWayTicket(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("customer/oneway_ticket.jsp");
         dispatcher.forward(request, response);
-
     }
+
 }
