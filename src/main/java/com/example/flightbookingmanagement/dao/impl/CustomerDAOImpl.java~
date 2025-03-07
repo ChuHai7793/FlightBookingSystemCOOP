@@ -73,6 +73,8 @@ public class CustomerDAOImpl implements ICustomerDAO {
             // Chuyển đổi từ String sang java.sql.Date
             LocalDate localDate = LocalDate.parse(departure_time);// Nếu departure_time là "2025-03-05"
             preparedStatement.setDate(3, Date.valueOf(localDate)); // Dùng setDate thay vì setString
+
+
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {

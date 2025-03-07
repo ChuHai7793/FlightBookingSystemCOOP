@@ -26,6 +26,8 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String departureDate = req.getParameter("leaving_date");
+//        System.out.println("leaving_date from request: " + departureDate);
         try {
             CustomerService.updateSearchTicketForm(req);
             CustomerService.selectAllFlightsFromSearchForm(req);
