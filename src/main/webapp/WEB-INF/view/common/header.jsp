@@ -28,7 +28,15 @@
                 <li class="nav-item"><a class="nav-link" href="contact.jsp">Liên hệ</a></li>
             </ul>
             <div class="ms-3">
-                <a href="customer/login.jsp" class="btn btn-light btn-login" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</a>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.user}">
+                        <a href="LogoutServlet" class="btn btn-light">Đăng xuất</a>
+                        <span class="nav-link text-light">Xin chào, ${sessionScope.user.fullName}!</span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="#" class="btn btn-light btn-login" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>

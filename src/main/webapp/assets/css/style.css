@@ -77,20 +77,63 @@ html, body {
 .btn-primary:hover {
     background-color: #003f7f;
 }
+/* Canh chỉnh theo chiều dọc */
+.social-login {
+    display: flex;
+    flex-direction: column; /* Sắp xếp trên dưới */
+    align-items: center;
+    gap: 14px; /* Tăng khoảng cách giữa các nút */
+    margin-top: 15px;
+    width: 100%;
+}
 
-/* Nút đăng nhập Facebook & Google */
-.facebook-btn, .facebook-btn:hover {
-    background-color: #3b5998;
-    border-color: #3b5998;
+/* Nút đăng nhập chung */
+.facebook-btn, .google-btn {
+    width: 100%;
+    /*max-width: 280px;*/
+    padding: 12px 15px;
+    border-radius: 6px; /* Bo góc mềm mại */
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    gap: 10px; /* Khoảng cách giữa icon và chữ */
+}
+
+/* Facebook */
+.facebook-btn {
+    background-color: #1877f2;
+    border: 1px solid #166fe5;
 }
 .facebook-btn:hover {
-    transform: scale(1.05);
+    background-color: #166fe5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(24, 119, 242, 0.3);
 }
 
-.google-btn, .google-btn:hover {
+/* Google */
+.google-btn {
     background-color: #db4437;
-    border-color: #db4437;
+    border: 1px solid #c1351d;
 }
 .google-btn:hover {
-    transform: scale(1.05);
+    background-color: #c1351d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(219, 68, 55, 0.3);
 }
+
+/* Thêm icon vào nút */
+.facebook-btn i,
+.google-btn i {
+    font-size: 18px;
+}
+
+
+

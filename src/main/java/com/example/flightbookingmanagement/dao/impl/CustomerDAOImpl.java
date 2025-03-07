@@ -114,16 +114,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
                         rs.getString("role"),
                         rs.getString("email"),
                         rs.getString("password"),
-                        rs.getString("phone"),
-                        rs.getString("fullName"),
-                        rs.getString("birthDate"),
-                        rs.getString("gender"),
-                        rs.getString("address"),
-                        rs.getString("nationalId"),
-                        rs.getString("nationality"),
-                        rs.getString("membershipLevel"),
-                        rs.getDouble("wallet"),
-                        rs.getTimestamp("createdAt")
+                        rs.getString("phone")
                 );
             }
         } catch (Exception e) {
