@@ -1,6 +1,7 @@
 package com.example.flightbookingmanagement.model;
 
-import java.security.Timestamp;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class User {
     private int userId;
@@ -15,13 +16,23 @@ public class User {
     private String nationalId;
     private String nationality;
     private String membershipLevel;
-    private double wallet;
+    private BigDecimal wallet;
     private Timestamp createdAt;
 
-    // Constructors
-    public User(int userId, String role, String email, String password, String phone, String fullName, String birthDate, String gender, String address, String nationalId, String nationality, String membershipLevel, double wallet, java.sql.Timestamp createdAt) {}
+    public User() {
+    }
 
-    public User(int userId, String role, String email, String password, String phone, String fullName, String birthDate, String gender, String address, String nationalId, String nationality, String membershipLevel, double wallet, Timestamp createdAt) {
+    // Constructors login
+    public User(int userId, String role, String email, String password, String phone) {
+        this.userId = userId;
+        this.role = role;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+    }
+
+
+    public User(int userId, String role, String email, String password, String phone, String fullName, String birthDate, String gender, String address, String nationalId, String nationality, String membershipLevel, BigDecimal wallet, Timestamp createdAt) {
         this.userId = userId;
         this.role = role;
         this.email = email;
@@ -135,11 +146,11 @@ public class User {
         this.membershipLevel = membershipLevel;
     }
 
-    public double getWallet() {
+    public BigDecimal getWallet() {
         return wallet;
     }
 
-    public void setWallet(double wallet) {
+    public void setWallet(BigDecimal wallet) {
         this.wallet = wallet;
     }
 

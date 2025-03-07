@@ -1,0 +1,4 @@
+package com.example.flightbookingmanagement.controller;
+
+public class LogoutServlet {
+}
