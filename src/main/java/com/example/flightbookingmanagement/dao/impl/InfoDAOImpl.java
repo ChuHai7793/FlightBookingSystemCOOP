@@ -10,15 +10,16 @@ import java.sql.ResultSet;
 
 public class InfoDAOImpl implements IInfoDAO {
 
-    @Override
     public InfoDTO getUserInfo(int userId) {
-        String query = "SELECT userId, fullName, birthDate, gender, address, email, phone, nationalId, nationality FROM Users WHERE userId = ?";
+        String query = "SELECT * FROM Users WHERE userId = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
+                System.out.println("User found: " + rs.getString("fullName"));  // Log user data
                 return new InfoDTO(
                         rs.getInt("userId"),
                         rs.getString("fullName"),
@@ -30,12 +31,15 @@ public class InfoDAOImpl implements IInfoDAO {
                         rs.getString("nationalId"),
                         rs.getString("nationality")
                 );
+            } else {
+                System.out.println("No user found for userId: " + userId);  // Log if no user is found
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace();  // Print error if there is one
         }
         return null;
     }
+
 
     @Override
     public boolean updateUserInfo(InfoDTO userInfo) {

@@ -9,24 +9,33 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/info")
+@WebServlet("/customerInfo")
 public class InfoServlet extends HttpServlet {
     private final IInfoDAO infoDAO = new InfoDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        InfoDTO userInfo = infoDAO.getUserInfo(userId);
+        try {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            System.out.println("Received userId: " + userId);
 
-        if (userInfo != null) {
-            request.setAttribute("userInfo", userInfo);
-            request.getRequestDispatcher("customer/info.jsp").forward(request, response);
-        } else {
+            InfoDTO userInfo = infoDAO.getUserInfo(userId);
+            if (userInfo != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("userInfo", userInfo);
+                System.out.println("User info saved in session: " + session.getAttribute("userInfo"));  // Debugging line
+                request.getRequestDispatcher("customer/info.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("error.jsp");
+            }
+        } catch (NumberFormatException e) {
             response.sendRedirect("error.jsp");
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,6 +54,7 @@ public class InfoServlet extends HttpServlet {
         boolean isUpdated = infoDAO.updateUserInfo(updatedUser);
 
         if (isUpdated) {
+            request.getSession().setAttribute("userInfo", updatedUser);
             response.sendRedirect("customer/info.jsp?userId=" + userId + "&success=true");
         } else {
             response.sendRedirect("customer/info.jsp?userId=" + userId + "&error=true");
