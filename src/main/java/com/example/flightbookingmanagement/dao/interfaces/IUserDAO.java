@@ -4,8 +4,11 @@ import com.example.flightbookingmanagement.dto.UserLoginDTO;
 import com.example.flightbookingmanagement.model.User;
 
 public interface IUserDAO {
-    UserLoginDTO validateUser(String phone, String password);
+    User validateUser(String phone, String password);
     boolean registerUser(User user);
     boolean checkPhoneExists(String phone);
+
+
+    int getUserIdFromLogin(String phone, String password);
     User getUserById(int userId);
 }

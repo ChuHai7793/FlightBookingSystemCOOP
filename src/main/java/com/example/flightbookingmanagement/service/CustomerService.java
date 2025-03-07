@@ -74,4 +74,13 @@ public class CustomerService {
         dispatcher.forward(request, response);
     }
 
+
+    //-------------------------------------- LOG IN ------------------------------------------
+    public void jumpToInfo(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/info.jsp");
+        dispatcher.forward(request, response);
+    }
+
+
 }
