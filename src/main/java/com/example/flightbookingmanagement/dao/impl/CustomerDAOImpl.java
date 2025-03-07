@@ -29,7 +29,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
     private static final String FLIGHTS_INFO_SQL = "SELECT\n" +
             "    f.airline ,\n" +
             "    f.flight_code ,\n" +
-            "    DATE_FORMAT(f.departure_time, '%d/%m/%Y')  AS flight_time,\n" +
+            " CONCAT(TIME_FORMAT(f.departure_time, '%H:%i'), ' → ', TIME_FORMAT(f.arrival_time, '%H:%i')) AS flight_time," +
             "    f.price \n" +
             "FROM flights f\n" +
             "WHERE\n" +
