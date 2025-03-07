@@ -19,7 +19,7 @@ public class User {
     private Timestamp createdAt;
 
     // Constructors
-    public User() {}
+    public User(int userId, String role, String email, String password, String phone, String fullName, String birthDate, String gender, String address, String nationalId, String nationality, String membershipLevel, double wallet, java.sql.Timestamp createdAt) {}
 
     public User(int userId, String role, String email, String password, String phone, String fullName, String birthDate, String gender, String address, String nationalId, String nationality, String membershipLevel, double wallet, Timestamp createdAt) {
         this.userId = userId;

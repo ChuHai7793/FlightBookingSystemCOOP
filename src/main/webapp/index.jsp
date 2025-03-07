@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/view/common/header.jsp" %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <div class="main-content">
     <!-- Banner -->
     <div class="banner">
@@ -19,7 +21,7 @@
                 <div class="modal-body">
                     <form action="LoginServlet" method="POST">
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="username" placeholder="Tài khoản" required>
+                            <input type="text" class="form-control" name="email" placeholder="Tài khoản" required>
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required>
@@ -49,6 +51,13 @@
             </div>
         </div>
     </div>
+    <!-- JavaScript để tự động mở modal nếu có lỗi -->
+    <script>
+        <c:if test="${not empty errorMessage}">
+        var myModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        myModal.show();
+        </c:if>
+    </script>
     <!--Model Đăng Ký-->
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
         <div class="modal-dialog">
