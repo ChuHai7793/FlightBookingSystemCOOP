@@ -51,7 +51,8 @@
     <div class="container mt-4">
         <div class="card shadow-lg p-4 booking-form">
             <h2 class="text-primary text-center">Đặt vé máy bay</h2>
-            <form action="BookingServlet" method="POST">
+            <form action="customer" method="GET">
+                <input type="hidden" name="action" value="searchTicket">
                 <div class="row">
                     <!-- Một chiều -->
                     <div class="col-md-6">
@@ -61,9 +62,9 @@
                             <label class="form-check-label" for="one-way">Một chiều</label>
                         </div>
                         <label class="form-label">Điểm đi</label>
-                        <input type="text" class="form-control" name="departure" placeholder="Nhập điểm đi" required>
+                        <input type="text" class="form-control" name="departure_location" placeholder="Nhập điểm đi" required>
                         <label class="form-label">Ngày đi</label>
-                        <input type="date" class="form-control" name="departure_date" required>
+                        <input type="date" class="form-control" name="leaving_date" required>
                     </div>
                     <!-- Khứ hồi -->
                     <div class="col-md-6">
@@ -73,7 +74,7 @@
                             <label class="form-check-label" for="round-trip">Khứ hồi</label>
                         </div>
                         <label class="form-label">Điểm đến</label>
-                        <input type="text" class="form-control" name="destination" placeholder="Nhập điểm đến" required>
+                        <input type="text" class="form-control" name="arrival_location" placeholder="Nhập điểm đến" required>
 
                         <label class="form-label">Ngày về</label>
                         <input type="date" class="form-control" name="return_date" id="return-date" disabled>
@@ -84,15 +85,15 @@
                 <div class="row mt-3">
                     <div class="col-md-4">
                         <label class="form-label">Người lớn</label>
-                        <input type="number" class="form-control" name="adults" min="1" required>
+                        <input type="number" class="form-control" name="adult_num" min="1" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Trẻ em</label>
-                        <input type="number" class="form-control" name="children" min="0">
+                        <input type="number" class="form-control" name="kid_num" min="0">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Em bé</label>
-                        <input type="number" class="form-control" name="infants" min="0">
+                        <input type="number" class="form-control" name="baby_num" min="0">
                     </div>
                 </div>
                 <!-- Nút tìm vé -->
@@ -102,7 +103,14 @@
             </form>
         </div>
     </div>
-
+    <a href="customer/register.jsp"> chuyển hướng register</a><br>
+    <a href="customer/login.jsp"> chuyển hướng login</a><br>
+    <a href="customer/info.jsp"> chuyển hướng info</a><br>
+    <a href="customer/payment.jsp"> chuyển hướng payment</a><br>
+    <a href="customer/transaction_history.jsp"> chuyển hướng history</a><br>
+    <a href="customer/change_password.jsp"> chuyển hướng change pw</a><br>
+    <a href="customer/oneway_ticket.jsp"> chuyển hướng one way</a><br>
+    <a href="customer/roundtrip_ticket.jsp"> chuyển hướng roundtrip</a><br>
     <script>
         const ticketTypeRadios = document.querySelectorAll('input[name="ticket_type"]');
         const returnDateInput = document.getElementById("return-date");

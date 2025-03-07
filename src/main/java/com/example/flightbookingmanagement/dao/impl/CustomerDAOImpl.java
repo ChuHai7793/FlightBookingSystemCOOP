@@ -35,7 +35,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
             "WHERE\n" +
             "    f.departure_location = ?\n" +
             "    AND f.arrival_location = ?\n" +
-            "    AND DATE(f.departure_time) = ?;";
+            "    AND DATE(f.departure_time) = ?";
 
     public CustomerDAOImpl() {
     }

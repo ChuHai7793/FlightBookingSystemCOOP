@@ -26,14 +26,38 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        System.out.println(action);
         try {
-            CustomerService.updateSearchTicketForm(req);
-            CustomerService.selectAllFlightsFromSearchForm(req);
-            CustomerService.jumpToOneWayTicket(req, resp);
+            switch (action) {
+                case "searchTicket":
 
-        } catch (SQLException e) {
-            throw new ServletException(e);
+                    CustomerService.updateSearchTicketForm(req);
+                    CustomerService.selectAllFlightsFromSearchForm(req);
+                    CustomerService.jumpToOneWayTicket(req, resp);
+                    break;
+                case "edit":
+
+                    break;
+                case "delete":
+
+                    break;
+
+                case "findByCountry":
+
+                    break;
+                case "sortByName":
+
+                    break;
+                default:
+
+                    break;
+            }
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
         }
     }
-
 }
