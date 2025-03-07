@@ -1,13 +1,14 @@
 package com.example.flightbookingmanagement.dao.impl;
 
+import com.example.flightbookingmanagement.config.DatabaseConfig;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
 import com.example.flightbookingmanagement.dao.interfaces.ICustomerDAO;
+import com.example.flightbookingmanagement.model.User;
 
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,9 @@ public class CustomerDAOImpl implements ICustomerDAO {
             "WHERE\n" +
             "    f.departure_location = ?\n" +
             "    AND f.arrival_location = ?\n" +
-            "    AND DATE(f.departure_time) = ?";
+            "    AND DATE(f.departure_time) = ?;";
+
+    private static final String LOGIN_QUERY = "SELECT * FROM users WHERE email = ? AND password = ?";
 
     public CustomerDAOImpl() {
     }
@@ -94,5 +97,38 @@ public class CustomerDAOImpl implements ICustomerDAO {
         }
         System.out.print(searchedTickets.isEmpty());
         return searchedTickets;
+    }
+
+    @Override
+    public User validateUser(String email, String password) {
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(LOGIN_QUERY)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("userId"),
+                        rs.getString("role"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("fullName"),
+                        rs.getString("birthDate"),
+                        rs.getString("gender"),
+                        rs.getString("address"),
+                        rs.getString("nationalId"),
+                        rs.getString("nationality"),
+                        rs.getString("membershipLevel"),
+                        rs.getDouble("wallet"),
+                        rs.getTimestamp("createdAt")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
