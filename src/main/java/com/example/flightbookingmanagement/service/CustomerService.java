@@ -4,7 +4,7 @@ import com.example.flightbookingmanagement.dao.impl.CustomerDAOImpl;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
 import com.example.flightbookingmanagement.dto.SearchedTicketFormDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
-import com.example.flightbookingmanagement.utils.FlightsSorter;
+import com.example.flightbookingmanagement.utils.TicketsSorter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,11 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public class CustomerService {
@@ -68,7 +63,7 @@ public class CustomerService {
             orderBy = request.getParameter("orderBy");
         } catch (RuntimeException ignored){}
         System.out.print(orderBy);
-        FlightsSorter.sortSearchedTicketsByOrder(searchedTickets, orderBy);
+        TicketsSorter.sortSearchedTicketsByOrder(searchedTickets, orderBy);
 
         request.setAttribute("searchedTickets", searchedTickets);
 

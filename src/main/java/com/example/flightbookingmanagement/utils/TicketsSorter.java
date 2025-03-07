@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class FlightsSorter {
+public class TicketsSorter {
     public static void sortSearchedTicketsByOrder(List<SearchedTicketDTO> searchedTickets, String orderBy) {
         if (searchedTickets == null || searchedTickets.isEmpty()||orderBy==null) {
             return ; // Nếu danh sách rỗng, không cần sắp xếp
