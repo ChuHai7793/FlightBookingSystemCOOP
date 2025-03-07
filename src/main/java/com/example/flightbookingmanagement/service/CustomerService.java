@@ -62,7 +62,7 @@ public class CustomerService {
         try{
             orderBy = request.getParameter("orderBy");
         } catch (RuntimeException ignored){}
-        System.out.print(orderBy);
+
         TicketsSorter.sortSearchedTicketsByOrder(searchedTickets, orderBy);
 
         request.setAttribute("searchedTickets", searchedTickets);
