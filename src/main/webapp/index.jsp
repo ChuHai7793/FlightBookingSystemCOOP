@@ -1,7 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/view/common/header.jsp" %>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <div class="main-content">
     <!-- Banner -->
     <div class="banner">
@@ -161,7 +159,14 @@
             </form>
         </div>
     </div>
-
+    <a href="customer/register.jsp"> chuyển hướng register</a><br>
+    <a href="customer/login.jsp"> chuyển hướng login</a><br>
+    <a href="customer/info.jsp"> chuyển hướng info</a><br>
+    <a href="customer/payment.jsp"> chuyển hướng payment</a><br>
+    <a href="customer/transaction_history.jsp"> chuyển hướng history</a><br>
+    <a href="customer/change_password.jsp"> chuyển hướng change pw</a><br>
+    <a href="customer/oneway_ticket.jsp"> chuyển hướng one way</a><br>
+    <a href="customer/roundtrip_ticket.jsp"> chuyển hướng roundtrip</a><br>
     <script>
         const ticketTypeRadios = document.querySelectorAll('input[name="ticket_type"]');
         const returnDateInput = document.getElementById("return-date");

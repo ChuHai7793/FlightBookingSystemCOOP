@@ -164,31 +164,32 @@
                     <!-- Checkbox Sắp xếp -->
                     <div class="mb-3">
                         <h6 class="card-title mb-2" style="font-size: 15px;">Sắp xếp</h6>
-                        <select class="form-select" aria-label="Sắp xếp">
-                            <option value="recommend" selected>Đề xuất</option>
-                            <option value="price">Giá (thấp đến cao)</option>
-                            <option value="time">Thời gian khởi hành</option>
-                            <option value="airline">Hãng hàng không</option>
+                        <select id ="sortSelect" class="form-select" aria-label="Sắp xếp">
+                            <option name ="recommend" value="recommend" selected>Đề xuất</option>
+                            <option  value="price">Giá (thấp đến cao)</option>
+                            <option  value="time">Thời gian khởi hành</option>
+                            <option  value="airline">Hãng hàng không</option>
                         </select>
                     </div>
 
                     <!-- Form tìm kiếm -->
-                    <form>
+                    <form action="customer" method="GET">
+                        <input type="hidden" name="action" value="searchTicket">
                         <div class="mb-2">
-                            <label for="departure" class="form-label">Điểm đi</label>
-                            <input type="text" class="form-control" id="departure" value="${SearchedTicketForm.departure_location}">
+                            <label for="departure_location" class="form-label">Điểm đi</label>
+                            <input type="text" class="form-control" id="departure_location" name="departure_location" value="${SearchedTicketForm.departure_location}">
                         </div>
                         <div class="mb-2">
-                            <label for="destination" class="form-label">Điểm đến</label>
-                            <input type="text" class="form-control" id="destination" value="${SearchedTicketForm.arrival_location}">
+                            <label for="arrival_location" class="form-label">Điểm đến</label>
+                            <input type="text" class="form-control" id="arrival_location" name="arrival_location" value="${SearchedTicketForm.arrival_location}">
                         </div>
                         <div class="mb-2">
-                            <label for="departDate" class="form-label">Ngày đi</label>
-                            <input type="date" class="form-control" id="departDate" value="${SearchedTicketForm.leaving_date}">
+                            <label for="leaving_date" class="form-label">Ngày đi</label>
+                            <input type="date" class="form-control" id="leaving_date" name="leaving_date" value="${SearchedTicketForm.leaving_date}">
                         </div>
                         <div class="mb-2">
-                            <label for="returnDate" class="form-label">Ngày về</label>
-                            <input type="date" class="form-control" id="returnDate" value="${SearchedTicketForm.departure_location}">
+                            <label for="return_date" class="form-label">Ngày về</label>
+                            <input type="date" class="form-control" id="return_date" name="return_date"  value="${SearchedTicketForm.departure_location}">
                         </div>
                         <%-- Xet gia tri cua nguoi lon --%>
                         <div class="mb-2">
@@ -218,6 +219,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
+<script>
+
+    document.getElementById("sortSelect").addEventListener("change", function() {
+        let selectedValue = this.value;
+
+        fetch("customer?sort=" + selectedValue, {
+            method: "GET"
+        })
+            .catch(error => console.error("Lỗi:", error));
+    });
+</script>
 
 </body>
 </html>
