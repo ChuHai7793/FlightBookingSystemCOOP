@@ -33,23 +33,6 @@
                         <a class="nav-link" href="#">Liên Hệ</a>
                     </li>
                 </ul>
-<%--                <div class="d-flex gap-2">--%>
-<%--                    <button class="btn btn-outline-primary btn-register" onclick="window.location.href='customer/register.jsp'">--%>
-<%--                        Đăng ký--%>
-<%--                    </button>--%>
-<%--                    <button class="btn btn-primary btn-login" onclick="window.location.href='customer/login.jsp'">--%>
-<%--                        Đăng nhập--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-
-
-<%--                <div class="d-flex gap-2">--%>
-<%--                    <select class="form-select w-auto" onchange="window.location.href=this.value;">--%>
-<%--                        <option value="" selected>Tên</option>--%>
-<%--                        <option value="" >Thông tin cá nhân</option>--%>
-<%--                        <option value="logout.html">Đăng xuất</option>--%>
-<%--                    </select>--%>
-<%--                </div>--%>
                 <c:choose>
                     <!-- Nếu userId là null (chưa đăng nhập) -->
                     <c:when test="${empty userId}">

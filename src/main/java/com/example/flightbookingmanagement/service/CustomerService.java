@@ -56,11 +56,6 @@ public class CustomerService {
         String arrival_location = request.getParameter("arrival_location");
         String departure_time = request.getParameter("leaving_date");
 
-//        ĐỔI TỪ ĐỊNH DẠNG '05/03/2025' sang  '2025-03-05' để dùng trong QUERY
-//        String new_departure_time = LocalDate.parse(departure_time, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//        System.out.print(departure_time);
-
         List<SearchedTicketDTO> searchedTickets = customerDAO.selectFlightsFromSearchedForm(departure_location,
                 arrival_location,departure_time);
 
