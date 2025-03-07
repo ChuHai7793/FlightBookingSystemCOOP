@@ -31,7 +31,9 @@
                 <c:choose>
                     <c:when test="${not empty sessionScope.user}">
                         <a href="LogoutServlet" class="btn btn-light">Đăng xuất</a>
-                        <span class="nav-link text-light">Xin chào, ${sessionScope.user.fullName}!</span>
+                        <a href="/customer/info.jsp?userId=${sessionScope.user.userId}" class="nav-link text-light">
+                            Xin chào, ${sessionScope.user.fullName}!
+                        </a>
                     </c:when>
                     <c:otherwise>
                         <a href="#" class="btn btn-light btn-login" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</a>
