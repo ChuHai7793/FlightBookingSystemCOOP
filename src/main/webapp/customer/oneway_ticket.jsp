@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -103,27 +104,52 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="text-center">VNairline</td>
-                        <td class="text-center">VNA101</td>
-                        <td class="text-center">13:30-15:30</td>
-                        <td class="text-center">2,000,000</td>
-                        <td class="text-center"><a href="#" class="btn btn-link p-0">Chi tiết</a></td>
-                        <td class="text-center">
-                            <input type="checkbox" class="form-check-input rounded-circle">
-                        </td>
-                    </tr>
+
+                    <c:choose>
+                        <c:when test="${empty searchedTickets}">
+                            <tr>
+                                <td class="text-center" colspan="6">Không tìm thấy chuyến bay khớp với tìm kiếm </td>
+                            </tr>
+
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="searchedTicket" items="${searchedTickets}">
+                                <tr>
+                                    <td class="text-center">${searchedTicket.airlineName}</td>
+                                    <td class="text-center">${searchedTicket.flight_code}</td>
+                                    <td class="text-center">${searchedTicket.flight_time}</td>
+                                    <td class="text-center">${searchedTicket.price}</td>
+                                    <td class="text-center"><a href="#" class="btn btn-link p-0">Chi tiết</a></td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="form-check-input rounded-circle">
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+
+
+<%--                    <tr>--%>
+<%--                        <td class="text-center">VNairline</td>--%>
+<%--                        <td class="text-center">VNA101</td>--%>
+<%--                        <td class="text-center">13:30-15:30</td>--%>
+<%--                        <td class="text-center">2,000,000</td>--%>
+<%--                        <td class="text-center"><a href="#" class="btn btn-link p-0">Chi tiết</a></td>--%>
+<%--                        <td class="text-center">--%>
+<%--                            <input type="checkbox" class="form-check-input rounded-circle">--%>
+<%--                        </td>--%>
+<%--                    </tr>--%>
                     <!-- Thêm nhiều hàng để kiểm tra scroll -->
-                    <tr>
-                        <td class="text-center">VNairline</td>
-                        <td class="text-center">VNA102</td>
-                        <td class="text-center">14:00-16:00</td>
-                        <td class="text-center">2,500,000</td>
-                        <td class="text-center"><a href="#" class="btn btn-link p-0">Chi tiết</a></td>
-                        <td class="text-center">
-                            <input type="checkbox" class="form-check-input rounded-circle">
-                        </td>
-                    </tr>
+<%--                    <tr>--%>
+<%--                        <td class="text-center">VNairline</td>--%>
+<%--                        <td class="text-center">VNA102</td>--%>
+<%--                        <td class="text-center">14:00-16:00</td>--%>
+<%--                        <td class="text-center">2,500,000</td>--%>
+<%--                        <td class="text-center"><a href="#" class="btn btn-link p-0">Chi tiết</a></td>--%>
+<%--                        <td class="text-center">--%>
+<%--                            <input type="checkbox" class="form-check-input rounded-circle">--%>
+<%--                        </td>--%>
+<%--                    </tr>--%>
                     <!-- Thêm thêm hàng nếu cần -->
                     </tbody>
                 </table>
@@ -150,45 +176,34 @@
                     <form>
                         <div class="mb-2">
                             <label for="departure" class="form-label">Điểm đi</label>
-                            <input type="text" class="form-control" id="departure" placeholder="Nhập điểm đi">
+                            <input type="text" class="form-control" id="departure" value="${SearchedTicketForm.departure_location}">
                         </div>
                         <div class="mb-2">
                             <label for="destination" class="form-label">Điểm đến</label>
-                            <input type="text" class="form-control" id="destination" placeholder="Nhập điểm đến">
+                            <input type="text" class="form-control" id="destination" value="${SearchedTicketForm.arrival_location}">
                         </div>
                         <div class="mb-2">
                             <label for="departDate" class="form-label">Ngày đi</label>
-                            <input type="date" class="form-control" id="departDate">
+                            <input type="date" class="form-control" id="departDate" value="${SearchedTicketForm.leaving_date}">
                         </div>
                         <div class="mb-2">
                             <label for="returnDate" class="form-label">Ngày về</label>
-                            <input type="date" class="form-control" id="returnDate">
+                            <input type="date" class="form-control" id="returnDate" value="${SearchedTicketForm.departure_location}">
+                        </div>
+                        <%-- Xet gia tri cua nguoi lon --%>
+                        <div class="mb-2">
+                            <label for="adult_num" class="form-label">Người lớn</label>
+                            <input type="number" class="form-control" id="adult_num" name="adult_num" min="0" value="${SearchedTicketForm.adult_num}">
+                        <%-- Xet gia tri cua tre em --%>
                         </div>
                         <div class="mb-2">
-                            <label for="adults" class="form-label">Người lớn</label>
-                            <select class="form-select" id="adults">
-                                <option value="1" selected>1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
+                            <label for="kid_num" class="form-label">Trẻ em</label>
+                            <input type="number" class="form-control" id="kid_num" name="kid_num" min="0" value="${SearchedTicketForm.kid_num}">
                         </div>
-                        <div class="mb-2">
-                            <label for="children" class="form-label">Trẻ em</label>
-                            <select class="form-select" id="children">
-                                <option value="0" selected>0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
+                        <%-- Xet gia tri cua baby --%>
                         <div class="mb-3">
-                            <label for="infants" class="form-label">Em bé</label>
-                            <select class="form-select" id="infants">
-                                <option value="0" selected>0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
+                            <label for="baby_num" class="form-label">Em bé</label>
+                            <input type="number" class="form-control" id="baby_num" name="baby_num" min="0" value="${SearchedTicketForm.baby_num}">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
                     </form>

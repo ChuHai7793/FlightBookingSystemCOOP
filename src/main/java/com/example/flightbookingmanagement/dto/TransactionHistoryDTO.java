@@ -1,14 +1,14 @@
 package com.example.flightbookingmanagement.dto;
 
-public class Transaction_history_dto {
+public class TransactionHistoryDTO {
 
     private String departure_location, arrival_location,booking_date,travel_date,price,status;
 
 
-    public Transaction_history_dto() {
+    public TransactionHistoryDTO() {
     }
 
-    public Transaction_history_dto(String departure_location, String arrival_location, String booking_date, String travel_date, String price, String status) {
+    public TransactionHistoryDTO(String departure_location, String arrival_location, String booking_date, String travel_date, String price, String status) {
         this.departure_location = departure_location;
         this.arrival_location = arrival_location;
         this.booking_date = booking_date;

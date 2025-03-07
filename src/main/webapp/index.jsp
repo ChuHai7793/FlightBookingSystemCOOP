@@ -1,25 +1,49 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/view/common/header.jsp" %>
-<div class="main-content">
-    <!-- Banner -->
-    <div class="banner">
-        <div class="text-center">
-            <h1>Chào mừng đến với TWOR AIRLINE</h1>
-            <p>Đặt vé nhanh chóng, dễ dàng với giá tốt nhất.</p>
-        </div>
-    </div>
-    <!-- Modal Đăng Nhập -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="loginModalLabel">Đăng nhập</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="LoginServlet" method="POST">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="username" placeholder="Tài khoản" required>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt vé - MyWebsite</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+<body>
+<!-- Header với Navbar -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">2HAI AIRLINE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Giới Thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dịch Vụ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Liên Hệ</a>
+                    </li>
+                </ul>
+                <c:choose>
+                    <!-- Nếu userId là null (chưa đăng nhập) -->
+                    <c:when test="${empty userId}">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary btn-register" onclick="window.location.href='customer/register.jsp'">
+                                Đăng ký
+                            </button>
+                            <button class="btn btn-primary btn-login" onclick="window.location.href='customer/login.jsp'">
+                                Đăng nhập
+                            </button>
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required>
@@ -62,10 +86,11 @@
                         </div>
                         <label class="form-label">Điểm đi</label>
                         <input type="text" class="form-control" name="departure" placeholder="Nhập điểm đi" required>
-
-                        <label class="form-label">Ngày đi</label>
-                        <input type="date" class="form-control" name="departure_date" required>
-                    </div>
+<!-- Form đặt vé -->
+<div class="container mt-5">
+    <form action="/customer" method="get">
+        <fieldset class="border p-4 rounded">
+            <legend class="float-none w-auto px-2">Đặt vé</legend>
 
                     <!-- Khứ hồi -->
                     <div class="col-md-6">
@@ -98,17 +123,28 @@
                     </div>
                 </div>
 
-                <!-- Nút tìm vé -->
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary btn-lg">Tìm chuyến bay</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <script>
-        const ticketTypeRadios = document.querySelectorAll('input[name="ticket_type"]');
-        const returnDateInput = document.getElementById("return-date");
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="departure_location" class="form-label">Điểm đi</label>
+                    <input required type="text" class="form-control" id="departure_location" name="departure_location" placeholder="Nhập điểm đi">
+                </div>
+                <div class="col-md-6">
+                    <label for="arrival_location" class="form-label">Điểm đến</label>
+                    <input required type="text" class="form-control" id="arrival_location" name="arrival_location" placeholder="Nhập điểm đến">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="leaving_date" class="form-label">Ngày đi</label>
+                    <input type="date" class="form-control" id="leaving_date" name="leaving_date">
+                </div>
+                <div class="col-md-6">
+                    <label for="return_date" class="form-label">Ngày về</label>
+                    <input type="date" class="form-control" id="return_date" name="return_date">
+                </div>
+            </div>
 
         ticketTypeRadios.forEach(radio => {
             radio.addEventListener("change", function () {
@@ -119,4 +155,3 @@
         document.getElementById("one-way").checked = true;
     </script>
 </div>
-<%@ include file="/WEB-INF/view/common/footer.jsp" %>
