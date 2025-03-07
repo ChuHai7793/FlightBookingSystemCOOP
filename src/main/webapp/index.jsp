@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -45,83 +44,43 @@
                                 Đăng nhập
                             </button>
                         </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required>
+                    </c:when>
+
+                    <!-- Nếu userId có giá trị (đã đăng nhập) -->
+                    <c:otherwise>
+                        <div class="d-flex gap-2">
+                            <select class="form-select w-auto" onchange="window.location.href=this.value;">
+                                <option value="" selected>Tên</option>
+                                <option value="">Thông tin cá nhân</option>
+                                <option value="logout.html">Đăng xuất</option>
+                            </select>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="remember">
-                                <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
-                            </div>
-                            <a href="#" class="text-decoration-none">Quên mật khẩu?</a>
-                            <a hrer="#" class=="text-decoration-none">Đăng ký</a>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
-                        <div class="text-center mt-2">
-                            <span class="text-muted">OR</span>
-                        </div>
-                        <div class="social-login mt-3">
-                            <button type="button" class="btn facebook-btn text-white w-100 mb-2">Đăng nhập bằng
-                                Facebook
-                            </button>
-                            <button type="button" class="btn google-btn text-white w-100">Đăng nhập bằng Gmail</button>
-                        </div>
-                    </form>
-                </div>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
         </div>
-    </div>
-    <!-- Form đặt vé -->
-    <div class="container mt-4">
-        <div class="card shadow-lg p-4 booking-form">
-            <h2 class="text-primary text-center">Đặt vé máy bay</h2>
-            <form action="BookingServlet" method="POST">
-                <div class="row">
-                    <!-- Một chiều -->
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="ticket_type" id="one-way" value="one-way"
-                                   checked>
-                            <label class="form-check-label" for="one-way">Một chiều</label>
-                        </div>
-                        <label class="form-label">Điểm đi</label>
-                        <input type="text" class="form-control" name="departure" placeholder="Nhập điểm đi" required>
+    </nav>
+</header>
+
 <!-- Form đặt vé -->
 <div class="container mt-5">
     <form action="/customer" method="get">
         <fieldset class="border p-4 rounded">
             <legend class="float-none w-auto px-2">Đặt vé</legend>
 
-                    <!-- Khứ hồi -->
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="ticket_type" id="round-trip"
-                                   value="round-trip">
-                            <label class="form-check-label" for="round-trip">Khứ hồi</label>
-                        </div>
-                        <label class="form-label">Điểm đến</label>
-                        <input type="text" class="form-control" name="destination" placeholder="Nhập điểm đến" required>
-
-                        <label class="form-label">Ngày về</label>
-                        <input type="date" class="form-control" name="return_date" id="return-date" disabled>
-                    </div>
+            <div class="mb-3 d-flex align-items-center">
+                <label class="form-label me-3">Loại vé:</label>
+                <div class="form-check me-3">
+                    <input class="form-check-input" type="radio" name="ticket_type" id="one-way" value="one-way" checked>
+                    <label class="form-check-label" for="one-way">Một chiều</label>
                 </div>
-
-                <!-- Số lượng hành khách -->
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <label class="form-label">Người lớn</label>
-                        <input type="number" class="form-control" name="adults" min="1" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Trẻ em</label>
-                        <input type="number" class="form-control" name="children" min="0">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Em bé</label>
-                        <input type="number" class="form-control" name="infants" min="0">
-                    </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="ticket_type" id="round-trip" value="round-trip">
+                    <label class="form-check-label" for="round-trip">Khứ hồi</label>
                 </div>
+            </div>
+
 
 
             <div class="row mb-3">
@@ -146,12 +105,60 @@
                 </div>
             </div>
 
-        ticketTypeRadios.forEach(radio => {
-            radio.addEventListener("change", function () {
-                returnDateInput.disabled = this.value === "one-way";
-            });
-        });
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="adult_num" class="form-label">Người lớn</label>
+                    <input type="number" class="form-control" id="adult_num" name="adult_num" min="0" placeholder="0">
+                </div>
+                <div class="col-md-4">
+                    <label for="kid_num" class="form-label">Trẻ em</label>
+                    <input type="number" class="form-control" id="kid_num" name="kid_num" min="0" placeholder="0">
+                </div>
+                <div class="col-md-4">
+                    <label for="baby_num" class="form-label">Em bé</label>
+                    <input type="number" class="form-control" id="baby_num" name="baby_num" min="0" placeholder="0">
+                </div>
+            </div>
 
-        document.getElementById("one-way").checked = true;
-    </script>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Tìm vé</button>
+            </div>
+        </fieldset>
+    </form>
 </div>
+<a href="customer/register.jsp"> chuyển hướng register</a><br>
+<a href="customer/login.jsp"> chuyển hướng login</a><br>
+<a href="customer/info.jsp"> chuyển hướng info</a><br>
+<a href="customer/payment.jsp"> chuyển hướng payment</a><br>
+<a href="customer/transaction_history.jsp"> chuyển hướng history</a><br>
+<a href="customer/change_password.jsp"> chuyển hướng change pw</a><br>
+<a href="customer/oneway_ticket.jsp"> chuyển hướng one way</a><br>
+<a href="customer/roundtrip_ticket.jsp"> chuyển hướng roundtrip</a><br>
+<!-- Bootstrap JS và Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+
+<script>
+    const ticketTypeRadios = document.querySelectorAll('input[name="ticket_type"]');
+    const returnDateInput = document.getElementById("return-date");
+
+    // Lắng nghe sự kiện khi radio button thay đổi
+    ticketTypeRadios.forEach(radio => {
+        radio.addEventListener("change", function () {
+            if (this.value === "one-way") {
+                returnDateInput.disabled = true; // Vô hiệu hóa ô nhập "Ngày về"
+            } else {
+                returnDateInput.disabled = false; // Bật lại ô nhập "Ngày về"
+            }
+        });
+    });
+
+    // Đảm bảo mặc định khi tải trang, "Ngày về" bị vô hiệu hóa nếu chọn "Một chiều"
+    document.getElementById("one-way").checked = true;
+    returnDateInput.disabled = true;
+
+</script>
+
+</body>
+</html>
