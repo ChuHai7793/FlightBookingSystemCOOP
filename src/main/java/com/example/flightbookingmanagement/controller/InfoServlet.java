@@ -23,7 +23,7 @@ public class InfoServlet extends HttpServlet {
             InfoDTO userInfo = infoDAO.getUserInfo(userId);
             if (userInfo != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("userInfo", userInfo); // Lưu thông tin vào session
+                session.setAttribute("userInfo", userInfo);
                 request.getRequestDispatcher("customer/info.jsp").forward(request, response);
             } else {
                 response.sendRedirect("error.jsp");

@@ -1,0 +1,9 @@
+package com.example.flightbookingmanagement.dto;
+
+public class Register {
+    private String phone;
+    private String password;
+    private String fullName;
+    private String email;
+    
+}

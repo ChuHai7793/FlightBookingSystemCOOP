@@ -12,10 +12,6 @@ import java.io.IOException;
 public class GoogleLoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("token");
-
-        // Xác thực token với Google API nếu cần
-
-        // Lưu thông tin vào session
         HttpSession session = request.getSession();
         session.setAttribute("user", "Google User");
         response.sendRedirect("home.jsp");

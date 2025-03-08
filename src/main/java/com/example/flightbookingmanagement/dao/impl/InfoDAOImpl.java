@@ -19,7 +19,7 @@ public class InfoDAOImpl implements IInfoDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                System.out.println("User found: " + rs.getString("fullName"));  // Log user data
+                System.out.println("User found: " + rs.getString("fullName"));
                 return new InfoDTO(
                         rs.getInt("userId"),
                         rs.getString("fullName"),
@@ -32,10 +32,10 @@ public class InfoDAOImpl implements IInfoDAO {
                         rs.getString("nationality")
                 );
             } else {
-                System.out.println("No user found for userId: " + userId);  // Log if no user is found
+                System.out.println("No user found for userId: " + userId);
             }
         } catch (Exception e) {
-            e.printStackTrace();  // Print error if there is one
+            e.printStackTrace();
         }
         return null;
     }

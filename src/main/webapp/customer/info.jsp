@@ -56,6 +56,10 @@
                         <input type="date" class="form-control" id="birth_date" name="birth_date" value="${sessionScope.user.birthDate}">
                     </div>
                     <div class="mb-3">
+                        <label for="gender" class="form-label">Giới tính:</label>
+                        <input type="text" class="form-control" id="gender" name="gender" value="${sessionScope.user.gender}">
+                    </div>
+                    <div class="mb-3">
                         <label for="address" class="form-label">Địa chỉ:</label>
                         <input type="text" class="form-control" id="address" name="address" value="${sessionScope.user.address}">
                     </div>
@@ -66,6 +70,14 @@
                     <div class="mb-3">
                         <label for="phone" class="form-label">Điện thoại:</label>
                         <input type="tel" class="form-control" id="phone" name="phone" value="${sessionScope.user.phone}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nationalId" class="form-label">CCCD:</label>
+                        <input type="text" class="form-control" id="nationalId" name="nationalId" value="${sessionScope.user.nationalId}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nationality" class="form-label">Quốc tịch:</label>
+                        <input type="text" class="form-control" id="nationality" name="nationality" value="${sessionScope.user.nationality}">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="hideEditForm()">Hủy</button>
