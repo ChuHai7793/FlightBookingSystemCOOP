@@ -92,7 +92,7 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public UserLoginDTO getUserById(int userId) {
-        String sql = "SELECT user_id, phone, email, full_name, role FROM users WHERE user_id = ?";
+        String sql = "SELECT * FROM users WHERE user_id = ?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);

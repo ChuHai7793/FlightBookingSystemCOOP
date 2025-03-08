@@ -20,13 +20,10 @@ public class InfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
-            System.out.println("Received userId: " + userId);
-
             InfoDTO userInfo = infoDAO.getUserInfo(userId);
             if (userInfo != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("userInfo", userInfo);
-                System.out.println("User info saved in session: " + session.getAttribute("userInfo"));  // Debugging line
+                session.setAttribute("userInfo", userInfo); // Lưu thông tin vào session
                 request.getRequestDispatcher("customer/info.jsp").forward(request, response);
             } else {
                 response.sendRedirect("error.jsp");
@@ -49,12 +46,12 @@ public class InfoServlet extends HttpServlet {
         String nationalId = request.getParameter("nationalId");
         String nationality = request.getParameter("nationality");
 
-        InfoDTO updatedUser = new InfoDTO(userId, fullName, birthDate, gender, address, email, phone, nationalId, nationality);
+        InfoDTO updatedUserInfo = new InfoDTO(userId, fullName, birthDate, gender, address, email, phone, nationalId, nationality);
 
-        boolean isUpdated = infoDAO.updateUserInfo(updatedUser);
+        boolean isUpdated = infoDAO.updateUserInfo(updatedUserInfo);
 
         if (isUpdated) {
-            request.getSession().setAttribute("userInfo", updatedUser);
+            request.getSession().setAttribute("userInfo", updatedUserInfo);
             response.sendRedirect("customer/info.jsp?userId=" + userId + "&success=true");
         } else {
             response.sendRedirect("customer/info.jsp?userId=" + userId + "&error=true");
