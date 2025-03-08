@@ -100,7 +100,6 @@ public class CustomerService {
         // Lấy session hiện tại (không tạo mới)
         HttpSession session = request.getSession(false);
         // Kiểm tra nếu session tồn tại
-
             // Lấy user từ session
             User user = (User) session.getAttribute("user");
 
