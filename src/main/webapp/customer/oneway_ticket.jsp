@@ -157,57 +157,58 @@
         </div>
 
     <!-- Container mới bên phải -->
-    <div class="col-lg-4">
-        <div class="sidebar">
-            <div class="card">
-                <div class="card-body p-3"> <!-- Giảm padding card -->
-                    <!-- Checkbox Sắp xếp -->
-                    <div class="mb-3">
-                        <h6 class="card-title mb-2" style="font-size: 15px;">Sắp xếp</h6>
-                        <select id ="sortSelect" class="form-select" aria-label="Sắp xếp">
-                            <option name ="recommend" value="recommend" selected>Đề xuất</option>
-                            <option  value="price">Giá (thấp đến cao)</option>
-                            <option  value="time">Thời gian khởi hành</option>
-                            <option  value="airline">Hãng hàng không</option>
-                        </select>
-                    </div>
+        <div class="col-lg-4">
+            <div class="sidebar">
+                <div class="card">
+                    <div class="card-body p-3"> <!-- Giảm padding card -->
+                        <!-- Form tìm kiếm -->
+                        <form id="SearchForm" action="customer" method="GET">
+                            <input type="hidden" name="action" value="searchTicket">
 
-                    <!-- Form tìm kiếm -->
-                    <form action="customer" method="GET">
-                        <input type="hidden" name="action" value="searchTicket">
-                        <div class="mb-2">
-                            <label for="departure_location" class="form-label">Điểm đi</label>
-                            <input type="text" class="form-control" id="departure_location" name="departure_location" value="${SearchedTicketForm.departure_location}">
-                        </div>
-                        <div class="mb-2">
-                            <label for="arrival_location" class="form-label">Điểm đến</label>
-                            <input type="text" class="form-control" id="arrival_location" name="arrival_location" value="${SearchedTicketForm.arrival_location}">
-                        </div>
-                        <div class="mb-2">
-                            <label for="leaving_date" class="form-label">Ngày đi</label>
-                            <input type="date" class="form-control" id="leaving_date" name="leaving_date" value="${SearchedTicketForm.leaving_date}">
-                        </div>
-                        <div class="mb-2">
-                            <label for="return_date" class="form-label">Ngày về</label>
-                            <input type="date" class="form-control" id="return_date" name="return_date"  value="${SearchedTicketForm.departure_location}">
-                        </div>
-                        <%-- Xet gia tri cua nguoi lon --%>
-                        <div class="mb-2">
-                            <label for="adult_num" class="form-label">Người lớn</label>
-                            <input type="number" class="form-control" id="adult_num" name="adult_num" min="0" value="${SearchedTicketForm.adult_num}">
-                        <%-- Xet gia tri cua tre em --%>
-                        </div>
-                        <div class="mb-2">
-                            <label for="kid_num" class="form-label">Trẻ em</label>
-                            <input type="number" class="form-control" id="kid_num" name="kid_num" min="0" value="${SearchedTicketForm.kid_num}">
-                        </div>
-                        <%-- Xet gia tri cua baby --%>
-                        <div class="mb-3">
-                            <label for="baby_num" class="form-label">Em bé</label>
-                            <input type="number" class="form-control" id="baby_num" name="baby_num" min="0" value="${SearchedTicketForm.baby_num}">
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
-                    </form>
+                            <!-- Checkbox Sắp xếp -->
+                            <div class="mb-3">
+                                <h6 class="card-title mb-2" style="font-size: 15px;">Sắp xếp</h6>
+                                <select id="sortSelect" class="form-select" aria-label="Sắp xếp" name="orderBy"> <!-- Thêm name để gửi dữ liệu -->
+                                    <option value="recommend" selected>Đề xuất</option>
+                                    <option value="price">Giá (thấp đến cao)</option>
+                                    <option value="time">Thời gian khởi hành</option>
+                                    <option value="airline">Hãng hàng không</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="departure_location" class="form-label">Điểm đi</label>
+                                <input type="text" class="form-control" id="departure_location" name="departure_location" value="${SearchedTicketForm.departure_location}">
+                            </div>
+                            <div class="mb-2">
+                                <label for="arrival_location" class="form-label">Điểm đến</label>
+                                <input type="text" class="form-control" id="arrival_location" name="arrival_location" value="${SearchedTicketForm.arrival_location}">
+                            </div>
+                            <div class="mb-2">
+                                <label for="leaving_date" class="form-label">Ngày đi</label>
+                                <input type="date" class="form-control" id="leaving_date" name="leaving_date" value="${SearchedTicketForm.leaving_date}">
+                            </div>
+                            <div class="mb-2">
+                                <label for="return_date" class="form-label">Ngày về</label>
+                                <input type="date" class="form-control" id="return_date" name="return_date" value="${SearchedTicketForm.departure_location}">
+                            </div>
+                            <%-- Xet gia tri cua nguoi lon --%>
+                            <div class="mb-2">
+                                <label for="adult_num" class="form-label">Người lớn</label>
+                                <input type="number" class="form-control" id="adult_num" name="adult_num" min="0" value="${SearchedTicketForm.adult_num}">
+                                <%-- Xet gia tri cua tre em --%>
+                            </div>
+                            <div class="mb-2">
+                                <label for="kid_num" class="form-label">Trẻ em</label>
+                                <input type="number" class="form-control" id="kid_num" name="kid_num" min="0" value="${SearchedTicketForm.kid_num}">
+                            </div>
+                            <%-- Xet gia tri cua baby --%>
+                            <div class="mb-3">
+                                <label for="baby_num" class="form-label">Em bé</label>
+                                <input type="number" class="form-control" id="baby_num" name="baby_num" min="0" value="${SearchedTicketForm.baby_num}">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -220,15 +221,31 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 <script>
-
     document.getElementById("sortSelect").addEventListener("change", function() {
-        let selectedValue = this.value;
-
-        fetch("customer?sort=" + selectedValue, {
-            method: "GET"
-        })
-            .catch(error => console.error("Lỗi:", error));
+        document.getElementById("SearchForm").submit();
     });
+
+
+    // document.getElementById("sortSelect").addEventListener("change", function() {
+    //
+    //     fetch("customer?action=sort" ,{
+    //         method: "GET"
+    //     })
+    //         .catch(error => console.error("Lỗi:", error));
+    //
+    // });
+    // fetch("customer?action=sort", {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify({
+    //         tickets: searchedTickets // Danh sách vé
+    //     })
+    // })
+    //     .then(response => response.json())
+    //     .then(data => console.log("Server response:", data))
+    //     .catch(error => console.error("Lỗi:", error));
 </script>
 
 </body>

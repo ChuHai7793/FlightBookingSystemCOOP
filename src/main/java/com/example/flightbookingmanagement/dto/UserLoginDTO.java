@@ -2,12 +2,15 @@ package com.example.flightbookingmanagement.dto;
 
 import com.example.flightbookingmanagement.model.User;
 
-public class UserLoginDTO extends User {
+public class UserLoginDTO  {
     private int userId;
     private String phone;
     private String email;
     private String fullName;
     private String role;
+
+    public UserLoginDTO() {
+    }
 
     public UserLoginDTO(int userId, String phone, String email, String fullName, String role) {
         this.userId = userId;

@@ -1,10 +1,8 @@
 package com.example.flightbookingmanagement.dao.impl;
 
 import com.example.flightbookingmanagement.dao.interfaces.IUserDAO;
-import com.example.flightbookingmanagement.dto.UserLoginDTO;
 import com.example.flightbookingmanagement.model.User;
 import com.example.flightbookingmanagement.config.DatabaseConfig;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,38 +14,25 @@ import java.util.logging.Logger;
 public class UserDAOImpl implements IUserDAO {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImpl.class.getName());
 
+
     @Override
-    public UserLoginDTO validateUser(String phone, String password) {
-        String sql = "SELECT user_id, phone, email, full_name, role, password FROM users WHERE phone = ?";
+    public int getUserIdFromLogin(String phone, String password) {
+        String sql = "SELECT user_id FROM users WHERE phone = ? AND password = ?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, phone);
+            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                String storedPassword = rs.getString("password");
-
-                if (password.equals(storedPassword)) {
-                    return new UserLoginDTO(
-                            rs.getInt("user_id"),
-                            rs.getString("phone"),
-                            rs.getString("email"),
-                            rs.getString("full_name"),
-                            rs.getString("role")
-                    );
-                } else {
-                    throw new IllegalArgumentException("Sai mật khẩu!");
-                }
-            } else {
-                throw new IllegalArgumentException("Số điện thoại không tồn tại!");
+                return rs.getInt("user_id");
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Lỗi validateUser", e);
         }
-        return null;
+        return -1;
+
     }
-
-
 
     @Override
     public boolean registerUser(User user) {
@@ -64,6 +49,31 @@ public class UserDAOImpl implements IUserDAO {
             LOGGER.log(Level.SEVERE, "Lỗi registerUser", e);
         }
         return false;
+    }
+
+    @Override
+    public User validateUser(String phone, String password) {
+        String sql = "SELECT user_id FROM users WHERE phone = ? AND password = ?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, phone);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+
+                if (password.equals(storedPassword)) {
+                    return getUserById(rs.getInt("user_id"));
+                } else {
+                    throw new IllegalArgumentException("Sai mật khẩu!");
+                }
+            } else {
+                throw new IllegalArgumentException("Số điện thoại không tồn tại!");
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Lỗi validateUser", e);
+        }
+        return null;
     }
 
     @Override
@@ -91,7 +101,7 @@ public class UserDAOImpl implements IUserDAO {
 
 
     @Override
-    public UserLoginDTO getUserById(int userId) {
+    public User getUserById(int userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -99,12 +109,21 @@ public class UserDAOImpl implements IUserDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new UserLoginDTO(
+                return new User(
                         rs.getInt("user_id"),
-                        rs.getString("phone"),
+                        rs.getString("role"),
                         rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
                         rs.getString("full_name"),
-                        rs.getString("role")
+                        rs.getString("birth_date"),
+                        rs.getString("gender"),
+                        rs.getString("address"),
+                        rs.getString("national_id"),
+                        rs.getString("nationality"),
+                        rs.getString("membership_level"),
+                        rs.getBigDecimal("wallet"),
+                        rs.getTimestamp("created_at")
                 );
             }
         } catch (SQLException e) {
