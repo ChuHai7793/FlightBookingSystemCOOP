@@ -45,7 +45,6 @@ public class CustomerDAOImpl implements ICustomerDAO {
 //                                                " wallet = ?,createdAt = ? where id = ?";
 
 
-    private static final String LOGIN_QUERY = "SELECT * FROM users WHERE email = ? AND password = ?";
 
     public CustomerDAOImpl() {
     }

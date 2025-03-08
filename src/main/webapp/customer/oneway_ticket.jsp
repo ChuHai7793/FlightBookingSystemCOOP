@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/view/common/header.jsp" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -28,14 +30,14 @@
         }
 
         .sidebar .form-label {
-            font-size: 13px; /* Font chữ cho label */
-            margin-bottom: 4px;
+            font-size: 12px; /* Font chữ cho label */
+            margin-bottom: 2px;
         }
 
         .sidebar .form-control,
         .sidebar .form-select {
             font-size: 13px; /* Font chữ cho input/select */
-            padding: 6px 8px; /* Giảm padding */
+            padding: 4px 6px; /* Giảm padding */
         }
 
         .sidebar .btn {
@@ -58,36 +60,7 @@
 
 </head>
 <body>
-<!-- Navbar -->
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Trang Chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Giới Thiệu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Dịch Vụ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Liên Hệ</a>
-                    </li>
-                </ul>
-                <select class="form-select w-auto" onchange="window.location.href=this.value;">
-                    <option value="" selected>Tên</option>
-                    <option value="logout.html">Đăng xuất</option>
-                </select>
-            </div>
-        </div>
-    </nav>
-</header>
+
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-8">
@@ -119,7 +92,12 @@
                                     <td class="text-center">${searchedTicket.flight_code}</td>
                                     <td class="text-center">${searchedTicket.flight_time}</td>
                                     <td class="text-center">${searchedTicket.price}</td>
-                                    <td class="text-center"><a href="#" class="btn btn-link p-0">Chi tiết</a></td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#detailModal">
+                                            Chi tiết
+                                        </button>
+<%--                                        <a href="#" class="btn btn-link p-0">Chi tiết</a>--%>
+                                    </td>
                                     <td class="text-center">
                                         <input type="checkbox" class="form-check-input rounded-circle">
                                     </td>
@@ -128,31 +106,12 @@
                         </c:otherwise>
                     </c:choose>
 
-
-<%--                    <tr>--%>
-<%--                        <td class="text-center">VNairline</td>--%>
-<%--                        <td class="text-center">VNA101</td>--%>
-<%--                        <td class="text-center">13:30-15:30</td>--%>
-<%--                        <td class="text-center">2,000,000</td>--%>
-<%--                        <td class="text-center"><a href="#" class="btn btn-link p-0">Chi tiết</a></td>--%>
-<%--                        <td class="text-center">--%>
-<%--                            <input type="checkbox" class="form-check-input rounded-circle">--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
-                    <!-- Thêm nhiều hàng để kiểm tra scroll -->
-<%--                    <tr>--%>
-<%--                        <td class="text-center">VNairline</td>--%>
-<%--                        <td class="text-center">VNA102</td>--%>
-<%--                        <td class="text-center">14:00-16:00</td>--%>
-<%--                        <td class="text-center">2,500,000</td>--%>
-<%--                        <td class="text-center"><a href="#" class="btn btn-link p-0">Chi tiết</a></td>--%>
-<%--                        <td class="text-center">--%>
-<%--                            <input type="checkbox" class="form-check-input rounded-circle">--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
                     <!-- Thêm thêm hàng nếu cần -->
                     </tbody>
                 </table>
+            </div>
+            <div class="text-center mt-3">
+                <button type="button" class="btn btn-success">Xác Nhận</button>
             </div>
         </div>
 
@@ -216,6 +175,69 @@
     </div>
 </div>
 
+<!-- Detail Form Pop-up (Modal) -->
+<div class="modal fade modal-lg" id="detailModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Chi tiết vé</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Điểm đi và đến -->
+                <h5 class="text-center">Hà Nội → Hồ Chí Minh</h5>
+
+                <!-- Chia thành 3 phần -->
+                <div class="row text-center">
+                    <!-- Phần 1: Hà Nội -->
+                    <div class="col-md-4">
+                        <p><strong>Hà Nội</strong></p>
+                        <p>08:00</p>
+                        <p>Nội Bài (HAN)</p>
+                    </div>
+                    <!-- Phần 2: HCM -->
+                    <div class="col-md-4">
+                        <p><strong>Hồ Chí Minh</strong></p>
+                        <p>10:00</p>
+                        <p>Tân Sơn Nhất (SGN)</p>
+                    </div>
+                    <!-- Phần 3: Hãng & Chuyến bay -->
+                    <div class="col-md-4">
+                        <p><strong>Vietnam Airlines</strong></p>
+                        <p>Chuyến bay: VN123</p>
+                        <p>Hạng vé: Phổ thông</p>
+                    </div>
+                </div>
+
+                <!-- Bảng thông tin giá vé -->
+                <table class="table table-bordered mt-3">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Loại hành khách</th>
+                        <th>Số lượng vé</th>
+                        <th>Giá mỗi vé</th>
+                        <th>Thuế và phí</th>
+                        <th>Tổng giá</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Người lớn</td>
+                        <td>1</td>
+                        <td>$400</td>
+                        <td>$100</td>
+                        <td>$500</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap JS và Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
@@ -225,28 +247,8 @@
         document.getElementById("SearchForm").submit();
     });
 
-
-    // document.getElementById("sortSelect").addEventListener("change", function() {
-    //
-    //     fetch("customer?action=sort" ,{
-    //         method: "GET"
-    //     })
-    //         .catch(error => console.error("Lỗi:", error));
-    //
-    // });
-    // fetch("customer?action=sort", {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //         tickets: searchedTickets // Danh sách vé
-    //     })
-    // })
-    //     .then(response => response.json())
-    //     .then(data => console.log("Server response:", data))
-    //     .catch(error => console.error("Lỗi:", error));
 </script>
 
 </body>
+<%@ include file="/WEB-INF/view/common/footer.jsp" %>
 </html>

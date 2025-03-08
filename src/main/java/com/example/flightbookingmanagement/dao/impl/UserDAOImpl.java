@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 
 public class UserDAOImpl implements IUserDAO {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImpl.class.getName());
-
+    private static final String LOGIN_QUERY = "SELECT user_id FROM users WHERE phone = ? AND password = ?";
 
     @Override
     public int getUserIdFromLogin(String phone, String password) {
-        String sql = "SELECT user_id FROM users WHERE phone = ? AND password = ?";
+
         try (Connection connection = DatabaseConfig.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+             PreparedStatement stmt = connection.prepareStatement(LOGIN_QUERY)) {
             stmt.setString(1, phone);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
