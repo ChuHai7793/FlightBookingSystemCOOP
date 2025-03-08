@@ -17,17 +17,17 @@
 
         <!-- Nội dung chính -->
         <div class="col-md-9 border p-3">
-            <c:if test="${not empty sessionScope.userInfo}">
-                <p><strong>Tên:</strong> ${sessionScope.userInfo.fullName}</p>
-                <p><strong>Ngày sinh:</strong> ${sessionScope.userInfo.birthDate}</p>
-                <p><strong>Giới tính:</strong> ${sessionScope.userInfo.gender}</p>
-                <p><strong>Địa chỉ:</strong> ${sessionScope.userInfo.address}</p>
-                <p><strong>Email:</strong> ${sessionScope.userInfo.email}</p>
-                <p><strong>Điện thoại:</strong> ${sessionScope.userInfo.phone}</p>
-                <p><strong>CCCD:</strong> ${sessionScope.userInfo.nationalId}</p>
-                <p><strong>Quốc tịch:</strong> ${sessionScope.userInfo.nationality}</p>
+            <c:if test="${not empty user}">
+                <p><strong>Tên:</strong> ${user.fullName}</p>
+                <p><strong>Ngày sinh:</strong> ${user.birthDate}</p>
+                <p><strong>Giới tính:</strong> ${user.gender}</p>
+                <p><strong>Địa chỉ:</strong> ${user.address}</p>
+                <p><strong>Email:</strong> ${user.email}</p>
+                <p><strong>Điện thoại:</strong> ${user.phone}</p>
+                <p><strong>CCCD:</strong> ${user.nationalId}</p>
+                <p><strong>Quốc tịch:</strong> ${user.nationality}</p>
             </c:if>
-            <c:if test="${empty sessionScope.userInfo}">
+            <c:if test="${empty user}">
                 <p>Không có thông tin người dùng!</p>
             </c:if>
             <button type="button" class="btn btn-primary" onclick="showEditForm()">Chỉnh sửa</button>

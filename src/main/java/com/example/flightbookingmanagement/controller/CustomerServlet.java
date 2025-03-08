@@ -78,7 +78,7 @@ public class CustomerServlet extends HttpServlet {
                     CustomerService.jumpToOneWayTicket(req, resp);
                     break;
                 case "edit":
-
+//                    CustomerService.updateUser(req, resp);
                     break;
                 case "delete":
 

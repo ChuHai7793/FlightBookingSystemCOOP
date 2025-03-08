@@ -1,10 +1,8 @@
 package com.example.flightbookingmanagement.dao.impl;
 
-import com.example.flightbookingmanagement.config.DatabaseConfig;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
 import com.example.flightbookingmanagement.dao.interfaces.ICustomerDAO;
-import com.example.flightbookingmanagement.model.User;
 
 
 import java.sql.*;
@@ -42,7 +40,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
 
     public CustomerDAOImpl() {
     }
-
+    @Override
     public List<TransactionHistoryDTO> selectTransactionHistory() throws SQLException {
         List<TransactionHistoryDTO> transaction_histories = new ArrayList<>();
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(TRANSACTION_HISTORY_SQL)) {
@@ -67,7 +65,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
         return transaction_histories;
     }
 
-
+    @Override
     public List<SearchedTicketDTO> selectFlightsFromSearchedForm(String departure_location,
                                                                  String arrival_location,
                                                                  String departure_time) throws SQLException {
@@ -98,27 +96,4 @@ public class CustomerDAOImpl implements ICustomerDAO {
         return searchedTickets;
     }
 
-    @Override
-    public User validateUser(String email, String password) {
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(LOGIN_QUERY)) {
-
-            stmt.setString(1, email);
-            stmt.setString(2, password);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new User(
-                        rs.getInt("userId"),
-                        rs.getString("role"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("phone")
-                );
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
