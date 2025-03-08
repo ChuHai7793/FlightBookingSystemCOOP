@@ -13,9 +13,13 @@
         </div>
     </div>
     <!-- Modal Đăng Nhập -->
+<%--    <div class="modal fade ${not empty errorMessage ? 'show' : ''}" id="loginModal" tabindex="-1"--%>
+<%--         aria-labelledby="loginModalLabel" aria-hidden="${not empty errorMessage ? 'false' : 'true'}"--%>
+<%--         style="${not empty errorMessage ? 'display: block;' : ''}">--%>
+
     <div class="modal fade ${not empty errorMessage ? 'show' : ''}" id="loginModal" tabindex="-1"
-         aria-labelledby="loginModalLabel" aria-hidden="${not empty errorMessage ? 'false' : 'true'}"
-         style="${not empty errorMessage ? 'display: block;' : ''}">
+         aria-labelledby="loginModalLabel" aria-hidden="${not empty errorMessage ? 'false' : 'true'}">
+
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -61,8 +65,11 @@
         </div>
     </div>
     <!--Model Đăng Ký-->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel"
-         aria-hidden="true">
+<%--    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel"--%>
+<%--         aria-hidden="true">--%>
+    <div class="modal fade ${not empty registerErrorMessage ? 'show' : ''}" id="registerModal" tabindex="-1"
+         aria-labelledby="registerModal" aria-hidden="${not empty registerErrorMessage ? 'false' : 'true'}">
+
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -70,6 +77,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <c:if test="${not empty registerErrorMessage}">
+                        <div class="alert alert-danger">${registerErrorMessage}</div>
+                    </c:if>
+                    <c:if test="${not empty registerSuccessMessage}">
+                        <div class="alert alert-success">${registerSuccessMessage}</div>
+                    </c:if>
+
                     <form action="RegisterServlet" method="POST">
                         <div class="mb-3">
                             <input type="text" class="form-control" name="full_name" placeholder="Họ và tên"
@@ -190,12 +204,31 @@
         });
         document.getElementById("one-way").checked = true;
 
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     if (document.querySelector(".modal.show")) {
+        //         var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+        //         loginModal.show();
+        //     }
+        // });
+
         document.addEventListener("DOMContentLoaded", function () {
-            if (document.querySelector(".modal.show")) {
-                var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+            var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+            var registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+
+
+            var hasLoginError = "${not empty errorMessage}" === "true";
+            var hasRegisterError = "${not empty registerErrorMessage}" === "true";
+            var hasRegisterSuccess = "${not empty registerSuccessMessage}" === "true";
+
+
+            if (hasLoginError) {
                 loginModal.show();
             }
+            if (hasRegisterError || hasRegisterSuccess) {
+                registerModal.show();
+            }
         });
+
     </script>
 </div>
 <%@ include file="/WEB-INF/view/common/footer.jsp" %>
