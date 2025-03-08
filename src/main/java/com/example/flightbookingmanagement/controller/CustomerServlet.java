@@ -3,6 +3,7 @@ package com.example.flightbookingmanagement.controller;
 
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
 import com.example.flightbookingmanagement.dao.impl.CustomerDAOImpl;
+import com.example.flightbookingmanagement.model.User;
 import com.example.flightbookingmanagement.service.CustomerService;
 
 import javax.servlet.RequestDispatcher;
@@ -41,7 +42,7 @@ public class CustomerServlet extends HttpServlet {
                     CustomerService.jumpToOneWayTicket(req, resp);
                     break;
                 case "edit":
-
+                    CustomerService.updateUser(req, resp);
                     break;
                 case "delete":
 
@@ -78,7 +79,7 @@ public class CustomerServlet extends HttpServlet {
                     CustomerService.jumpToOneWayTicket(req, resp);
                     break;
                 case "edit":
-//                    CustomerService.updateUser(req, resp);
+                    CustomerService.updateUser(req, resp);
                     break;
                 case "delete":
 
@@ -98,4 +99,5 @@ public class CustomerServlet extends HttpServlet {
             throw new ServletException(ex);
         }
     }
+
 }
