@@ -44,14 +44,16 @@
                 <button type="button" class="btn-close" onclick="hideEditForm()" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="../customer" method="get"> <!-- Hiện tại đang ở /customer nên action="" -->
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="userId" value=${user.userId}>
                     <div class="mb-3">
                         <label for="name" class="form-label">Tên:</label>
                         <input type="text" class="form-control" id="name" name="name" value="${sessionScope.user.fullName}">
                     </div>
                     <div class="mb-3">
-                        <label for="dob" class="form-label">Ngày sinh:</label>
-                        <input type="date" class="form-control" id="dob" name="dob" value="${sessionScope.user.birthDate}">
+                        <label for="birth_date" class="form-label">Ngày sinh:</label>
+                        <input type="date" class="form-control" id="birth_date" name="birth_date" value="${sessionScope.user.birthDate}">
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Địa chỉ:</label>
@@ -65,12 +67,13 @@
                         <label for="phone" class="form-label">Điện thoại:</label>
                         <input type="tel" class="form-control" id="phone" name="phone" value="${sessionScope.user.phone}">
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="hideEditForm()">Hủy</button>
+                        <input type="submit" class="btn btn-primary" value="Lưu thay đổi">
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="hideEditForm()">Hủy</button>
-                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-            </div>
+
         </div>
     </div>
 </div>

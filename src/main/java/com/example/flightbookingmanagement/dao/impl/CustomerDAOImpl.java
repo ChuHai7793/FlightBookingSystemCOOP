@@ -3,6 +3,7 @@ package com.example.flightbookingmanagement.dao.impl;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
 import com.example.flightbookingmanagement.dao.interfaces.ICustomerDAO;
+import com.example.flightbookingmanagement.model.User;
 
 
 import java.sql.*;
@@ -16,14 +17,14 @@ public class CustomerDAOImpl implements ICustomerDAO {
 
 
     private static final String TRANSACTION_HISTORY_SQL = "SELECT\n" +
-                                                        "    f.departure_location,\n" +
-                                                        "    f.arrival_location ,\n" +
-                                                        "    t.booking_date,\n" +
-                                                        "    t.travel_date,\n" +
-                                                        "    f.price ,\n" +
-                                                        "    t.status \n" +
-                                                        "FROM tickets t\n" +
-                                                        "JOIN flights f ON t.flight_id = f.flight_id;";
+            "    f.departure_location,\n" +
+            "    f.arrival_location ,\n" +
+            "    t.booking_date,\n" +
+            "    t.travel_date,\n" +
+            "    f.price ,\n" +
+            "    t.status \n" +
+            "FROM tickets t\n" +
+            "JOIN flights f ON t.flight_id = f.flight_id;";
 
     private static final String FLIGHTS_INFO_SQL = "SELECT\n" +
             "    f.airline ,\n" +
@@ -36,10 +37,19 @@ public class CustomerDAOImpl implements ICustomerDAO {
             "    AND f.arrival_location = ?\n" +
             "    AND DATE(f.departure_time) = ?;";
 
+    private static final String UPDATE_USERS_SQL = "update users set full_name = ?," +
+                                                "birth_date= ?, " +
+                                                "address = ?, email = ?," +
+                                                "phone = ? " + "where user_id = ?";
+//                                                "gender = ?,national_id = ?,nationality= ?, membershipLevel = ?," +
+//                                                " wallet = ?,createdAt = ? where id = ?";
+
+
     private static final String LOGIN_QUERY = "SELECT * FROM users WHERE email = ? AND password = ?";
 
     public CustomerDAOImpl() {
     }
+
     @Override
     public List<TransactionHistoryDTO> selectTransactionHistory() throws SQLException {
         List<TransactionHistoryDTO> transaction_histories = new ArrayList<>();
@@ -55,8 +65,8 @@ public class CustomerDAOImpl implements ICustomerDAO {
                 String price = rs.getString("price");
                 String status = rs.getString("status");
 
-                TransactionHistoryDTO transaction_history = new TransactionHistoryDTO(departure_location,arrival_location
-                                                                                        ,booking_date,travel_date,price,status);
+                TransactionHistoryDTO transaction_history = new TransactionHistoryDTO(departure_location, arrival_location
+                        , booking_date, travel_date, price, status);
                 transaction_histories.add(transaction_history);
             }
         } catch (SQLException e) {
@@ -87,13 +97,31 @@ public class CustomerDAOImpl implements ICustomerDAO {
                 String flight_time = rs.getString("flight_time");
                 String price = rs.getString("price");
 
-                SearchedTicketDTO searchedTicket = new SearchedTicketDTO(airlineName,flight_code,flight_time,price);
+                SearchedTicketDTO searchedTicket = new SearchedTicketDTO(airlineName, flight_code, flight_time, price);
                 searchedTickets.add(searchedTicket);
             }
         } catch (SQLException e) {
             throw new SQLException(e);
         }
         return searchedTickets;
+    }
+
+    public boolean updateUser(User user) throws SQLException {
+        boolean rowUpdated;
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
+            statement.setString(1, user.getFullName());
+            statement.setString(2, user.getBirthDate());
+//            statement.setString(3, user.getGender());
+            statement.setString(3, user.getAddress());
+            statement.setString(4, user.getEmail());
+            statement.setString(5, user.getPhone());
+            statement.setInt(6, user.getUserId());
+//            statement.setString(7, user.getNationalId());
+//            statement.setString(8, user.getNationality());
+
+            rowUpdated = statement.executeUpdate() > 0;
+        }
+        return rowUpdated;
     }
 
 }
