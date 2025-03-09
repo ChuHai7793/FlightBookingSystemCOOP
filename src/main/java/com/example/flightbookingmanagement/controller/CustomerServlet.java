@@ -41,9 +41,9 @@ public class CustomerServlet extends HttpServlet {
                     CustomerService.selectAllFlightsFromSearchForm(req);
                     CustomerService.jumpToOneWayTicket(req, resp);
                     break;
-                case "edit":
-                    CustomerService.updateUser(req, resp);
-                    break;
+//                case "edit":
+//                    CustomerService.updateUser(req, resp);
+//                    break;
                 case "checkTransactionHistory":
                     CustomerService.showAllTransactionHistories(req);
                     CustomerService.jumpToTransactionHistory(req, resp);
@@ -84,7 +84,7 @@ public class CustomerServlet extends HttpServlet {
                 case "edit":
                     CustomerService.updateUser(req, resp);
                     break;
-                case "delete":
+                case "changePassword":
 
                     break;
 
