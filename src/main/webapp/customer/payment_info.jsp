@@ -24,7 +24,7 @@
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3 border p-3">
-            <a href="../customer/info.jsp" class="d-block mb-2 text-primary">Thông tin cá nhân</a>
+            <a href="../customer/info.jsp?userId=${sessionScope.user.userId}" class="d-block mb-2 text-primary">Thông tin cá nhân</a>
             <a href="../customer?action=checkPaymentInfo" class="d-block mb-2 text-primary">Thanh toán</a>
             <a href="../customer?action=checkTransactionHistory" class="d-block mb-2 text-primary">Lịch sử giao dịch</a>
             <a href="../customer/change_password.jsp" class="d-block mb-2 text-primary">Đổi mật khẩu</a>
