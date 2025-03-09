@@ -12,9 +12,11 @@
         <!-- Sidebar -->
         <div class="col-md-3 border p-3">
             <a href="info.jsp" class="d-block mb-2 text-primary">Thông tin cá nhân</a>
-            <a href="payment.jsp" class="d-block mb-2 text-primary">Thanh toán</a>
-            <a href="transaction-history.jsp" class="d-block mb-2 text-primary">Lịch sử giao dịch</a>
-            <a href="change-password.jsp" class="d-block mb-2 text-primary">Đổi mật khẩu</a>
+            <a href="payment_info.jsp" class="d-block mb-2 text-primary">Thanh toán</a>
+            <a href="../customer?action=checkPaymentInfo" class="d-block mb-2 text-primary">Thanh toán</a>
+<%--            <a href="transaction_history.jsp" class="d-block mb-2 text-primary">Lịch sử giao dịch</a>--%>
+            <a href="../customer?action=checkTransactionHistory" class="d-block mb-2 text-primary">Lịch sử giao dịch</a>
+            <a href="change_password.jsp" class="d-block mb-2 text-primary">Đổi mật khẩu</a>
         </div>
 
         <!-- Nội dung chính -->

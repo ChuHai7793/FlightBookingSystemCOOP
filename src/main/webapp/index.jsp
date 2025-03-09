@@ -189,7 +189,7 @@
     <a href="customer/register.jsp"> chuyển hướng register</a><br>
     <a href="customer/login.jsp"> chuyển hướng login</a><br>
     <a href="customer/info.jsp"> chuyển hướng info</a><br>
-    <a href="customer/payment.jsp"> chuyển hướng payment</a><br>
+    <a href="customer/payment_info.jsp"> chuyển hướng payment</a><br>
     <a href="customer/transaction_history.jsp"> chuyển hướng history</a><br>
     <a href="customer/change_password.jsp"> chuyển hướng change pw</a><br>
     <a href="customer/oneway_ticket.jsp"> chuyển hướng one way</a><br>
