@@ -1,20 +1,14 @@
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+
+<%@ include file="/WEB-INF/view/common/header.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/view/common/header.jsp" %>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
 <!-- Nội dung chính -->
 <div class="container mt-3">
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3 border p-3">
             <a href="info.jsp" class="d-block mb-2 text-primary">Thông tin cá nhân</a>
-            <a href="payment_info.jsp" class="d-block mb-2 text-primary">Thanh toán</a>
             <a href="../customer?action=checkPaymentInfo" class="d-block mb-2 text-primary">Thanh toán</a>
-<%--            <a href="transaction_history.jsp" class="d-block mb-2 text-primary">Lịch sử giao dịch</a>--%>
             <a href="../customer?action=checkTransactionHistory" class="d-block mb-2 text-primary">Lịch sử giao dịch</a>
             <a href="change_password.jsp" class="d-block mb-2 text-primary">Đổi mật khẩu</a>
         </div>
@@ -39,6 +33,8 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/view/common/footer.jsp" %>
+
+
 <!-- Modal chỉnh sửa thông tin -->
 <div class="modal fade" id="editInfo" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -48,7 +44,7 @@
                 <button type="button" class="btn-close" onclick="hideEditForm()" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="../customer" method="get"> <!-- Hiện tại đang ở /customer nên action="" -->
+                <form action="../customer" method="post"> <!-- Hiện tại đang ở /customer nên action="" -->
                     <input type="hidden" name="action" value="edit">
                     <input type="hidden" name="userId" value=${user.userId}>
                     <div class="mb-3">
@@ -96,6 +92,3 @@
         modal.hide();
     }
 </script>
-
-</body>
-</html>

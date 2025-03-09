@@ -21,7 +21,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
                                                             "f.departure_location,f.arrival_location,\n" +
                                                             "t.booking_date,t.travel_date,f.price \n" +
                                                         "FROM tickets t JOIN flights f ON t.flight_id = f.flight_id \n"+
-                                                        "WHERE t.user_id = 1;";
+                                                        "WHERE t.user_id = ?;";
 
     private static final String TRANSACTION_HISTORY_SQL = "SELECT f.departure_location,\n" +
                                     " f.arrival_location ,t.booking_date,\n" +
