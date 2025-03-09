@@ -21,6 +21,7 @@ public class CustomerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private CustomerService CustomerService;
 
+
     public void init() {
         CustomerService = new CustomerService();
     }
@@ -68,6 +69,9 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
         if (action == null) {
             action = "";
