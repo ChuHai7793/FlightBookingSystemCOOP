@@ -1,9 +1,5 @@
 package com.example.flightbookingmanagement.controller;
 
-import com.example.flightbookingmanagement.dao.impl.CustomerDAOImpl;
-import com.example.flightbookingmanagement.dao.impl.UserDAOImpl;
-import com.example.flightbookingmanagement.dto.UserLoginDTO;
-import com.example.flightbookingmanagement.model.User;
 import com.example.flightbookingmanagement.service.LoginService;
 
 import javax.servlet.ServletException;
@@ -11,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/LoginServlet")

@@ -131,7 +131,6 @@ public class CustomerService {
         // Lấy user từ session
         User user = (User) session.getAttribute("user");
 
-
         // Update thông tin user
         user.setFullName(name);
         user.setBirthDate(birth_date);

@@ -1,6 +1,6 @@
 package com.example.flightbookingmanagement.dao.interfaces;
 
-import com.example.flightbookingmanagement.dto.UserLoginDTO;
+
 import com.example.flightbookingmanagement.model.User;
 
 public interface IUserDAO {
