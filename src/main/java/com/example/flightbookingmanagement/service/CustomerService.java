@@ -7,6 +7,7 @@ import com.example.flightbookingmanagement.dto.SearchedTicketFormDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
 import com.example.flightbookingmanagement.model.User;
 import com.example.flightbookingmanagement.utils.TicketsSorter;
+import com.example.flightbookingmanagement.utils.Validate;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -114,6 +115,14 @@ public class CustomerService {
         dispatcher.forward(request, response);
     }
 
+    //--------------------------------------------------------------------------------
+    public void jumpToChangePassword(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/change_password.jsp");
+        dispatcher.forward(request, response);
+    }
+
     //-------------------------------------- UPDATE CUSTOMER TO DATABASE ------------------------------------------
     public void updateUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
@@ -145,5 +154,32 @@ public class CustomerService {
 
     }
 
+    public void updatePassword(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        String message;
+        String current_password = request.getParameter("current_password");
+        String new_password = request.getParameter("new_password");
+        String confirm_password = request.getParameter("confirm_password");
 
+
+        // Lấy session hiện tại (không tạo mới)
+        HttpSession session = request.getSession(false);
+        // Kiểm tra nếu session tồn tại. Lấy user từ session
+        User user = (User) session.getAttribute("user");
+        String correct_current_password = user.getPassword();
+
+        if (Validate.isValidPassword(current_password,correct_current_password,
+                new_password,confirm_password)){
+            user.setPassword(new_password);
+            customerDAO.updatePassword(user,new_password);
+            session.setAttribute("user", user);
+
+            message = "Thông báo: Đổi password thành công!";
+        }else {
+            message = "Thông báo: mật khẩu hoặc xác nhận mật khẩu mới không chính xác!";
+        };
+        request.setAttribute("alertMessage", message);
+        jumpToChangePassword(request, response);
+
+    }
 }

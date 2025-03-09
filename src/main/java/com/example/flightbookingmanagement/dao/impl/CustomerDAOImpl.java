@@ -43,8 +43,8 @@ public class CustomerDAOImpl implements ICustomerDAO {
 
 
     private static final String UPDATE_USERS_SQL = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
-//                                                "gender = ?,national_id = ?,nationality= ?, membershipLevel = ?," +
-//                                                " wallet = ?,createdAt = ? where id = ?";
+    private static final String UPDATE_PASSWORD_SQL = "UPDATE users SET password = ? WHERE user_id = ?";
+
 
 
     public CustomerDAOImpl() {
@@ -135,6 +135,17 @@ public class CustomerDAOImpl implements ICustomerDAO {
             statement.setString(5, user.getPhone());
             statement.setInt(6, user.getUserId());
 
+
+            rowUpdated = statement.executeUpdate() > 0;
+        }
+        return rowUpdated;
+    }
+
+    public boolean updatePassword(User user,String new_password) throws SQLException {
+        boolean rowUpdated;
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_PASSWORD_SQL);) {
+            statement.setString(1,new_password);
+            statement.setInt(2,user.getUserId());
 
             rowUpdated = statement.executeUpdate() > 0;
         }
