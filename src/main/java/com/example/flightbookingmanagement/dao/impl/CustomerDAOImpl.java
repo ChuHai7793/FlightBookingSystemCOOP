@@ -18,17 +18,17 @@ public class CustomerDAOImpl implements ICustomerDAO {
 
 
     private static final String PAYMENT_INFO_SQL = "SELECT f.flight_code, \n" +
-                                                            "f.departure_location,f.arrival_location,\n" +
-                                                            "t.booking_date,t.travel_date,f.price \n" +
-                                                        "FROM tickets t JOIN flights f ON t.flight_id = f.flight_id \n"+
-                                                        "WHERE t.user_id = ?;";
+            "f.departure_location,f.arrival_location,\n" +
+            "t.booking_date,t.travel_date,f.price \n" +
+            "FROM tickets t JOIN flights f ON t.flight_id = f.flight_id \n" +
+            "WHERE t.user_id = ?;";
 
     private static final String TRANSACTION_HISTORY_SQL = "SELECT f.departure_location,\n" +
-                                    " f.arrival_location ,t.booking_date,\n" +
-                                    " t.travel_date,f.price, t.status \n" +
-                                    "FROM tickets t\n" +
-                                    "JOIN flights f ON t.flight_id = f.flight_id \n" +
-                                    "WHERE t.user_id = ?;";
+            " f.arrival_location ,t.booking_date,\n" +
+            " t.travel_date,f.price, t.status \n" +
+            "FROM tickets t\n" +
+            "JOIN flights f ON t.flight_id = f.flight_id \n" +
+            "WHERE t.user_id = ?;";
 
     private static final String FLIGHTS_INFO_SQL = "SELECT\n" +
             "    f.airline ,\n" +
@@ -41,13 +41,10 @@ public class CustomerDAOImpl implements ICustomerDAO {
             "    AND f.arrival_location = ?\n" +
             "    AND DATE(f.departure_time) = ?;";
 
-    private static final String UPDATE_USERS_SQL = "update users set full_name = ?," +
-                                                "birth_date= ?, " +
-                                                "address = ?, email = ?," +
-                                                "phone = ? " + "where user_id = ?";
+
+    private static final String UPDATE_USERS_SQL = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
 //                                                "gender = ?,national_id = ?,nationality= ?, membershipLevel = ?," +
 //                                                " wallet = ?,createdAt = ? where id = ?";
-
 
 
     public CustomerDAOImpl() {
@@ -68,7 +65,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
                 Date travel_date = rs.getDate("travel_date");
                 Integer price = rs.getInt("price");
 
-                PaymentInfoDTO payment_info = new PaymentInfoDTO(flight_code,departure_location, arrival_location
+                PaymentInfoDTO payment_info = new PaymentInfoDTO(flight_code, departure_location, arrival_location
                         , booking_date, travel_date, price);
                 payment_infos.add(payment_info);
             }

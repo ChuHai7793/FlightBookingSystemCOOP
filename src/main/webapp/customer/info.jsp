@@ -44,7 +44,7 @@
                 <button type="button" class="btn-close" onclick="hideEditForm()" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="../customer" method="post"> <!-- Hiện tại đang ở /customer nên action="" -->
+                <form action="../customer" method="post" accept-charset="UTF-8"> <!-- Hiện tại đang ở /customer nên action="" -->
                     <input type="hidden" name="action" value="edit">
                     <input type="hidden" name="userId" value=${user.userId}>
                     <div class="mb-3">
