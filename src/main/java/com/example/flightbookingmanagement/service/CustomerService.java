@@ -1,6 +1,7 @@
 package com.example.flightbookingmanagement.service;
 
 import com.example.flightbookingmanagement.dao.impl.CustomerDAOImpl;
+import com.example.flightbookingmanagement.dto.PaymentInfoDTO;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
 import com.example.flightbookingmanagement.dto.SearchedTicketFormDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
@@ -25,10 +26,22 @@ public class CustomerService {
 
     public void showAllTransactionHistories(HttpServletRequest request)
             throws SQLException, IOException, ServletException {
-
-        List<TransactionHistoryDTO> transaction_histories = customerDAO.selectTransactionHistory();
+        HttpSession session = request.getSession(false);
+        // Kiểm tra nếu session tồn tại
+        // Lấy user từ session
+        User user = (User) session.getAttribute("user");
+        List<TransactionHistoryDTO> transaction_histories = customerDAO.selectTransactionHistory(user.getUserId());
         request.setAttribute("transaction_histories", transaction_histories);
+    }
 
+    public void showAllPaymentInfos(HttpServletRequest request)
+            throws SQLException, IOException, ServletException {
+        HttpSession session = request.getSession(false);
+        // Kiểm tra nếu session tồn tại
+        // Lấy user từ session
+        User user = (User) session.getAttribute("user");
+        List<PaymentInfoDTO> payment_infos = customerDAO.selectPaymentInfo(user.getUserId());
+        request.setAttribute("payment_infos", payment_infos);
     }
 
 
@@ -85,6 +98,21 @@ public class CustomerService {
         dispatcher.forward(request, response);
     }
 
+    //--------------------------------------------------------------------------------
+    public void jumpToTransactionHistory(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/transaction_history.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    //--------------------------------------------------------------------------------
+    public void jumpToPaymentInfos(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/payment_info.jsp");
+        dispatcher.forward(request, response);
+    }
 
     //-------------------------------------- UPDATE CUSTOMER TO DATABASE ------------------------------------------
     public void updateUser(HttpServletRequest request, HttpServletResponse response)
@@ -100,21 +128,21 @@ public class CustomerService {
         // Lấy session hiện tại (không tạo mới)
         HttpSession session = request.getSession(false);
         // Kiểm tra nếu session tồn tại
-            // Lấy user từ session
-            User user = (User) session.getAttribute("user");
+        // Lấy user từ session
+        User user = (User) session.getAttribute("user");
 
 
-            // Update thông tin user
-            user.setFullName(name);
-            user.setBirthDate(birth_date);
-            user.setAddress(address);
-            user.setEmail(email);
-            user.setPhone(phone);
-            System.out.println(user);
-            customerDAO.updateUser(user);
-            session.setAttribute("user", user);
+        // Update thông tin user
+        user.setFullName(name);
+        user.setBirthDate(birth_date);
+        user.setAddress(address);
+        user.setEmail(email);
+        user.setPhone(phone);
+        System.out.println(user);
+        customerDAO.updateUser(user);
+        session.setAttribute("user", user);
 
-            jumpToInfo(user.getUserId(),request,response);
+        jumpToInfo(user.getUserId(),request,response);
 
     }
 

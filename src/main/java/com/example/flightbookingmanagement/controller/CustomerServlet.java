@@ -44,13 +44,16 @@ public class CustomerServlet extends HttpServlet {
                 case "edit":
                     CustomerService.updateUser(req, resp);
                     break;
-                case "delete":
-
+                case "checkTransactionHistory":
+                    CustomerService.showAllTransactionHistories(req);
+                    CustomerService.jumpToTransactionHistory(req, resp);
                     break;
 
-                case "findByCountry":
-
+                case "checkPaymentInfo":
+                    CustomerService.showAllPaymentInfos(req);
+                    CustomerService.jumpToPaymentInfos(req, resp);
                     break;
+
                 case "sortByName":
 
                     break;

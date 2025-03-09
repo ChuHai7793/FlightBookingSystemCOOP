@@ -1,5 +1,6 @@
 package com.example.flightbookingmanagement.dao.impl;
 
+import com.example.flightbookingmanagement.dto.PaymentInfoDTO;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
 import com.example.flightbookingmanagement.dao.interfaces.ICustomerDAO;
@@ -16,15 +17,18 @@ import static com.example.flightbookingmanagement.config.DatabaseConfig.getConne
 public class CustomerDAOImpl implements ICustomerDAO {
 
 
-    private static final String TRANSACTION_HISTORY_SQL = "SELECT\n" +
-            "    f.departure_location,\n" +
-            "    f.arrival_location ,\n" +
-            "    t.booking_date,\n" +
-            "    t.travel_date,\n" +
-            "    f.price ,\n" +
-            "    t.status \n" +
-            "FROM tickets t\n" +
-            "JOIN flights f ON t.flight_id = f.flight_id;";
+    private static final String PAYMENT_INFO_SQL = "SELECT f.flight_code, \n" +
+                                                            "f.departure_location,f.arrival_location,\n" +
+                                                            "t.booking_date,t.travel_date,f.price \n" +
+                                                        "FROM tickets t JOIN flights f ON t.flight_id = f.flight_id \n"+
+                                                        "WHERE t.user_id = 1;";
+
+    private static final String TRANSACTION_HISTORY_SQL = "SELECT f.departure_location,\n" +
+                                    " f.arrival_location ,t.booking_date,\n" +
+                                    " t.travel_date,f.price, t.status \n" +
+                                    "FROM tickets t\n" +
+                                    "JOIN flights f ON t.flight_id = f.flight_id \n" +
+                                    "WHERE t.user_id = ?;";
 
     private static final String FLIGHTS_INFO_SQL = "SELECT\n" +
             "    f.airline ,\n" +
@@ -50,10 +54,33 @@ public class CustomerDAOImpl implements ICustomerDAO {
     }
 
     @Override
-    public List<TransactionHistoryDTO> selectTransactionHistory() throws SQLException {
+    public List<PaymentInfoDTO> selectPaymentInfo(int userId) throws SQLException {
+        List<PaymentInfoDTO> payment_infos = new ArrayList<>();
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(PAYMENT_INFO_SQL)) {
+            preparedStatement.setInt(1, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                String flight_code = rs.getString("flight_code");
+                String departure_location = rs.getString("departure_location");
+                String arrival_location = rs.getString("arrival_location");
+                Timestamp booking_date = rs.getTimestamp("booking_date");
+                Date travel_date = rs.getDate("travel_date");
+                Integer price = rs.getInt("price");
+
+                PaymentInfoDTO payment_info = new PaymentInfoDTO(flight_code,departure_location, arrival_location
+                        , booking_date, travel_date, price);
+                payment_infos.add(payment_info);
+            }
+        }
+        return payment_infos;
+    }
+
+    @Override
+    public List<TransactionHistoryDTO> selectTransactionHistory(int userId) throws SQLException {
         List<TransactionHistoryDTO> transaction_histories = new ArrayList<>();
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(TRANSACTION_HISTORY_SQL)) {
-
+            preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -68,8 +95,6 @@ public class CustomerDAOImpl implements ICustomerDAO {
                         , booking_date, travel_date, price, status);
                 transaction_histories.add(transaction_history);
             }
-        } catch (SQLException e) {
-            throw new SQLException(e);
         }
         return transaction_histories;
     }
@@ -99,8 +124,6 @@ public class CustomerDAOImpl implements ICustomerDAO {
                 SearchedTicketDTO searchedTicket = new SearchedTicketDTO(airlineName, flight_code, flight_time, price);
                 searchedTickets.add(searchedTicket);
             }
-        } catch (SQLException e) {
-            throw new SQLException(e);
         }
         return searchedTickets;
     }
@@ -110,13 +133,11 @@ public class CustomerDAOImpl implements ICustomerDAO {
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
             statement.setString(1, user.getFullName());
             statement.setString(2, user.getBirthDate());
-//            statement.setString(3, user.getGender());
             statement.setString(3, user.getAddress());
             statement.setString(4, user.getEmail());
             statement.setString(5, user.getPhone());
             statement.setInt(6, user.getUserId());
-//            statement.setString(7, user.getNationalId());
-//            statement.setString(8, user.getNationality());
+
 
             rowUpdated = statement.executeUpdate() > 0;
         }
