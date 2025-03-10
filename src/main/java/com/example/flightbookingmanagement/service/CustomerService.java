@@ -124,7 +124,7 @@ public class CustomerService {
     }
 
     //-------------------------------------- UPDATE CUSTOMER TO DATABASE ------------------------------------------
-    public void updateUser(HttpServletRequest request, HttpServletResponse response)
+    public void updateCustomer(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
 
         String name = request.getParameter("name");
@@ -147,7 +147,7 @@ public class CustomerService {
         user.setEmail(email);
         user.setPhone(phone);
         System.out.println(user);
-        customerDAO.updateUser(user);
+        customerDAO.updateCustomer(user);
         session.setAttribute("user", user);
 
         jumpToInfo(user.getUserId(),request,response);

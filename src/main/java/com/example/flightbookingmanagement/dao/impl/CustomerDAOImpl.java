@@ -125,7 +125,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
         return searchedTickets;
     }
 
-    public boolean updateUser(User user) throws SQLException {
+    public boolean updateCustomer(User user) throws SQLException {
         boolean rowUpdated;
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
             statement.setString(1, user.getFullName());

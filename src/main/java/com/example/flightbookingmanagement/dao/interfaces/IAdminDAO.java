@@ -1,4 +1,4 @@
 package com.example.flightbookingmanagement.dao.interfaces;
 
-interface IAdminDAO {
+public interface IAdminDAO {
 }
