@@ -27,10 +27,8 @@ public class LoginService {
         userDAO = new UserDAOImpl();
     }
 
-    public void validateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("phone");
-        String password = request.getParameter("password");
-        int user_id = userDAO.getUserIdFromLogin(username, password);
+    public void validateUser(String phone,String password,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int user_id = userDAO.getUserIdFromLogin(phone, password);
         System.out.println(user_id);
         try {
             User user = userDAO.getUserById(user_id);
