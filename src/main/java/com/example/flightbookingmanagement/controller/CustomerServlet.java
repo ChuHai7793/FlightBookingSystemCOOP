@@ -89,7 +89,7 @@ public class CustomerServlet extends HttpServlet {
                     CustomerService.updateUser(req, resp);
                     break;
                 case "changePassword":
-
+                    CustomerService.updatePassword(req, resp);
                     break;
 
                 case "findByCountry":
