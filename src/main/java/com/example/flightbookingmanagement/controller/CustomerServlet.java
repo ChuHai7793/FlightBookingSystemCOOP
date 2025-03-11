@@ -37,20 +37,16 @@ public class CustomerServlet extends HttpServlet {
         try {
             switch (action) {
                 case "searchTicket":
-
                     customerService.updateSearchTicketForm(req);
-                    customerService.selectAllFlightsFromSearchForm(req);
-                    customerService.jumpToOneWayTicket(req, resp);
+                    customerService.selectAllFlightsFromSearchForm(req,resp);
                     break;
 
                 case "checkTransactionHistory":
-                    customerService.showAllTransactionHistories(req);
-                    customerService.jumpToTransactionHistory(req, resp);
+                    customerService.showAllTransactionHistories(req,resp);
                     break;
 
                 case "checkPaymentInfo":
-                    customerService.showAllPaymentInfos(req);
-                    customerService.jumpToPaymentInfos(req, resp);
+                    customerService.showAllPaymentInfos(req,resp);
                     break;
 
                 case "sortByName":
@@ -80,8 +76,7 @@ public class CustomerServlet extends HttpServlet {
                 case "sort":
 
                     customerService.updateSearchTicketForm(req);
-                    customerService.selectAllFlightsFromSearchForm(req);
-                    customerService.jumpToOneWayTicket(req, resp);
+                    customerService.selectAllFlightsFromSearchForm(req,resp);
                     break;
                 case "edit":
                     customerService.updateCustomer(req, resp);
