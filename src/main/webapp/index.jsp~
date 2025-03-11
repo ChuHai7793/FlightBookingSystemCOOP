@@ -169,15 +169,15 @@
                 <div class="row mt-3">
                     <div class="col-md-4">
                         <label class="form-label">Người lớn</label>
-                        <input type="number" class="form-control" name="adult_num" min="1" value="1" required>
+                        <input type="number" class="form-control" name="adult_num" min="1" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Trẻ em</label>
-                        <input type="number" class="form-control" name="kid_num" min="0" value="0">
+                        <input type="number" class="form-control" name="kid_num" min="0">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Em bé</label>
-                        <input type="number" class="form-control" name="baby_num" min="0" value="0">
+                        <input type="number" class="form-control" name="baby_num" min="0">
                     </div>
                 </div>
                 <!-- Nút tìm vé -->

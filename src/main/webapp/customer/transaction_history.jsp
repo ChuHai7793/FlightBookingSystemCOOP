@@ -3,6 +3,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/view/common/header.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -43,12 +44,13 @@
 
         <c:forEach var="transaction_history" items="${transaction_histories}">
           <tr>
-            <td class="text-center">${transaction_history.departure_location}</td>
-            <td class="text-center">${transaction_history.arrival_location}</td>
+            <td class="text-start">${transaction_history.departure_location}</td>
+            <td class="text-start">${transaction_history.arrival_location}</td>
             <td class="text-center">${transaction_history.booking_date}</td>
             <td class="text-center">${transaction_history.travel_date}</td>
-            <td class="text-center">${transaction_history.price}</td>
-            <td class="text-center">${transaction_history.status}</td>
+            <td class="text-end">$<fmt:setLocale value="vi_VN"/>
+              <fmt:formatNumber value="${transaction_history.price}" type="currency"/></td>
+            <td class="text-start">${transaction_history.status}</td>
           </tr>
         </c:forEach>
 
