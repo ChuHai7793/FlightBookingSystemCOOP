@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
 
-        LoginService.validateUser(phone,password, request,response);
+        LoginService.validateAndLogin(phone,password, request,response);
 
     }
 }

@@ -19,11 +19,11 @@ import java.util.List;
 @WebServlet(name = "CustomerServlet", urlPatterns = "/customer")
 public class CustomerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private CustomerService CustomerService;
+    private CustomerService customerService;
 
 
     public void init() {
-        CustomerService = new CustomerService();
+        customerService = new CustomerService();
     }
 
     @Override
@@ -38,21 +38,19 @@ public class CustomerServlet extends HttpServlet {
             switch (action) {
                 case "searchTicket":
 
-                    CustomerService.updateSearchTicketForm(req);
-                    CustomerService.selectAllFlightsFromSearchForm(req);
-                    CustomerService.jumpToOneWayTicket(req, resp);
+                    customerService.updateSearchTicketForm(req);
+                    customerService.selectAllFlightsFromSearchForm(req);
+                    customerService.jumpToOneWayTicket(req, resp);
                     break;
-//                case "edit":
-//                    CustomerService.updateUser(req, resp);
-//                    break;
+
                 case "checkTransactionHistory":
-                    CustomerService.showAllTransactionHistories(req);
-                    CustomerService.jumpToTransactionHistory(req, resp);
+                    customerService.showAllTransactionHistories(req);
+                    customerService.jumpToTransactionHistory(req, resp);
                     break;
 
                 case "checkPaymentInfo":
-                    CustomerService.showAllPaymentInfos(req);
-                    CustomerService.jumpToPaymentInfos(req, resp);
+                    customerService.showAllPaymentInfos(req);
+                    customerService.jumpToPaymentInfos(req, resp);
                     break;
 
                 case "sortByName":
@@ -81,15 +79,15 @@ public class CustomerServlet extends HttpServlet {
             switch (action) {
                 case "sort":
 
-                    CustomerService.updateSearchTicketForm(req);
-                    CustomerService.selectAllFlightsFromSearchForm(req);
-                    CustomerService.jumpToOneWayTicket(req, resp);
+                    customerService.updateSearchTicketForm(req);
+                    customerService.selectAllFlightsFromSearchForm(req);
+                    customerService.jumpToOneWayTicket(req, resp);
                     break;
                 case "edit":
-                    CustomerService.updateUser(req, resp);
+                    customerService.updateCustomer(req, resp);
                     break;
                 case "changePassword":
-                    CustomerService.updatePassword(req, resp);
+                    customerService.updatePassword(req, resp);
                     break;
 
                 case "findByCountry":

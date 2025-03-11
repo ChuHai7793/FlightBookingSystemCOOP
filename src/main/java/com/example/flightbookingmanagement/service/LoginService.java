@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 
 public class LoginService {
@@ -27,20 +28,25 @@ public class LoginService {
         userDAO = new UserDAOImpl();
     }
 
-    public void validateUser(String phone,String password,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void validateAndLogin(String phone,String password,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int user_id = userDAO.getUserIdFromLogin(phone, password);
         System.out.println(user_id);
         try {
             User user = userDAO.getUserById(user_id);
-            System.out.println(user);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-                response.sendRedirect("index.jsp");
+            String destination_page;
+
+            // --------------------- Access Control ---------------------
+            if (Objects.equals(user.getRole(), "admin")){
+                destination_page = "admin/info.jsp";
+            } else if (Objects.equals(user.getRole(), "customer")){
+                destination_page = "index.jsp";
             } else {
-                request.setAttribute("errorMessage", "Người dùng không tồn tại hoặc sai password");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                destination_page = "staff/info.jsp";
             }
+
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            response.sendRedirect(destination_page);
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);

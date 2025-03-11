@@ -6,4 +6,5 @@ public class Validate {
                                        String new_password,String confirm_password) {
         return current_password.equals(correct_current_password) && new_password.equals(confirm_password);
     }
+
 }
