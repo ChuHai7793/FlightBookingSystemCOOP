@@ -36,6 +36,7 @@ public class AdminServlet extends HttpServlet {
                     break;
                 case "delete":
                     adminService.deleteStaff(req,resp);
+                    adminService.showAllStaffs(req,resp);
                     break;
                 default:
                     break;

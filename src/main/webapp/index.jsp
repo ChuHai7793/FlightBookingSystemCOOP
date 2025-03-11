@@ -216,7 +216,6 @@
             var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
             var registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
 
-
             var hasLoginError = "${not empty errorMessage}" === "true";
             var hasRegisterError = "${not empty registerErrorMessage}" === "true";
             var hasRegisterSuccess = "${not empty registerSuccessMessage}" === "true";

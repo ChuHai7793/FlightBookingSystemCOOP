@@ -35,4 +35,5 @@ public class SQLService {
     public static final String UPDATE_PASSWORD_SQL = "UPDATE users SET password = ? WHERE user_id = ?";
     public static final String SELECT_ALL_STAFFS_SQL = "SELECT * FROM users WHERE role = 'staff'";
     public static final String UPDATE_ALL_STAFFS_SQL = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
+    public static final String DELETE_USER_SQL = "DELETE FROM users WHERE user_id = ?";
 }
