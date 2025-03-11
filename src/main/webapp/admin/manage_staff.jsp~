@@ -132,11 +132,8 @@
         var modal = new bootstrap.Modal(document.getElementById('editInfo'));
         modal.show();
     }
-    function deleteStaff(staffId) {
-        if (confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")) {
-            window.location.href = "../admin?action=delete&staffId=" + staffId;
-        }
-    }
+    
+
     function hideEditForm() {
         var modal = bootstrap.Modal.getInstance(document.getElementById('editInfo'));
         modal.hide();

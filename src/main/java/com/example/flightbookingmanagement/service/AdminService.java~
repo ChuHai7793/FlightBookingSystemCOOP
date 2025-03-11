@@ -25,14 +25,14 @@ public class AdminService {
         userDAO = new UserDAOImpl();
     }
 
-    private void saveStaffToSession(HttpServletRequest request){
-        List<User> staffs = adminDAO.getAllStaffs();
-        HttpSession session = request.getSession(false);
-        session.setAttribute("staffs", staffs);
-    }
 
     public void showAllStaffs(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-        saveStaffToSession(request);
+        List<User> staffs = adminDAO.getAllStaffs();
+        for(User staff : staffs){
+            System.out.println(staff);
+        }
+        HttpSession session = request.getSession(false);
+        session.setAttribute("staffs", staffs);
 //        request.setAttribute("staffs", staffs);
         response.sendRedirect("../admin/manage_staff.jsp");
     }
@@ -73,10 +73,15 @@ public class AdminService {
             throws SQLException, IOException, ServletException {
         int staffId = Integer.parseInt(request.getParameter("staffId"));
         boolean deleted = AdminDAOImpl.deleteStaff(staffId);
-        saveStaffToSession(request);
         if (deleted){
+            List<User> staffs = adminDAO.getAllStaffs();
+            HttpSession session = request.getSession(false);
+            session.setAttribute("staffs", staffs);
             response.sendRedirect("admin/manage_staff.jsp?success=true\"");
         } else {
+            List<User> staffs = adminDAO.getAllStaffs();
+            HttpSession session = request.getSession(false);
+            session.setAttribute("staffs", staffs);
             response.sendRedirect("admin/manage_staff.jsp?error=true");
         }
     }

@@ -16,9 +16,10 @@ import static com.example.flightbookingmanagement.config.DatabaseConfig.getConne
 
 public class AdminDAOImpl implements IAdminDAO {
 
-//    private static final String SELECT_ALL_STAFFS_SQL = "SELECT * FROM users WHERE role = 'staff'";
+    //    private static final String SELECT_ALL_STAFFS_SQL = "SELECT * FROM users WHERE role = 'staff'";
     public AdminDAOImpl() {
     }
+
     public List<User> getAllStaffs() {
         List<User> staffs = new ArrayList<>();
         try (Connection connection = getConnection();
@@ -27,19 +28,19 @@ public class AdminDAOImpl implements IAdminDAO {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 staffs.add(new User(rs.getInt("user_id"),
-                                    rs.getString("role"),
-                                    rs.getString("email"),
-                                    rs.getString("password"),
-                                    rs.getString("phone"),
-                                    rs.getString("full_name"),
-                                    rs.getString("birth_date"),
-                                    rs.getString("gender"),
-                                    rs.getString("address"),
-                                    rs.getString("national_id"),
-                                    rs.getString("nationality"),
-                                    rs.getString("membership_level"),
-                                    rs.getBigDecimal("wallet"),
-                                    rs.getTimestamp("created_at")));
+                        rs.getString("role"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("full_name"),
+                        rs.getString("birth_date"),
+                        rs.getString("gender"),
+                        rs.getString("address"),
+                        rs.getString("national_id"),
+                        rs.getString("nationality"),
+                        rs.getString("membership_level"),
+                        rs.getBigDecimal("wallet"),
+                        rs.getTimestamp("created_at")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +52,8 @@ public class AdminDAOImpl implements IAdminDAO {
         boolean rowUpdated;
 //        String sql = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(SQLService.UPDATE_ALL_STAFFS_SQL);) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLService.UPDATE_ALL_STAFFS_SQL);) {
             statement.setString(1, user.getFullName());
             statement.setString(2, user.getBirthDate());
             statement.setString(3, user.getAddress());
@@ -63,5 +65,15 @@ public class AdminDAOImpl implements IAdminDAO {
             rowUpdated = statement.executeUpdate() > 0;
         }
         return rowUpdated;
+    }
+
+    public static boolean deleteStaff(int staffID) {
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SQLService.DELETE_USER_SQL);) {
+            stmt.setInt(1, staffID);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }
