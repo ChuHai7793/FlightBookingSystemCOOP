@@ -25,7 +25,7 @@ public class CustomerService {
         customerDAO = new CustomerDAOImpl();
     }
 
-    public void showAllTransactionHistories(HttpServletRequest request)
+    public void showAllTransactionHistories(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         HttpSession session = request.getSession(false);
         // Kiểm tra nếu session tồn tại
@@ -33,9 +33,10 @@ public class CustomerService {
         User user = (User) session.getAttribute("user");
         List<TransactionHistoryDTO> transaction_histories = customerDAO.selectTransactionHistory(user.getUserId());
         request.setAttribute("transaction_histories", transaction_histories);
+        request.getRequestDispatcher("customer/transaction_history.jsp").forward(request, response);
     }
 
-    public void showAllPaymentInfos(HttpServletRequest request)
+    public void showAllPaymentInfos(HttpServletRequest request,HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         HttpSession session = request.getSession(false);
         // Kiểm tra nếu session tồn tại
@@ -43,10 +44,8 @@ public class CustomerService {
         User user = (User) session.getAttribute("user");
         List<PaymentInfoDTO> payment_infos = customerDAO.selectPaymentInfo(user.getUserId());
         request.setAttribute("payment_infos", payment_infos);
+        request.getRequestDispatcher("customer/payment_info.jsp").forward(request, response);
     }
-
-
-
 
     public void updateSearchTicketForm(HttpServletRequest request)
             throws SQLException, IOException, ServletException {
@@ -66,7 +65,7 @@ public class CustomerService {
 
     }
 
-    public void selectAllFlightsFromSearchForm(HttpServletRequest request )
+    public void selectAllFlightsFromSearchForm(HttpServletRequest request,HttpServletResponse response )
             throws SQLException, IOException, ServletException {
         String departure_location = request.getParameter("departure_location");
         String arrival_location = request.getParameter("arrival_location");
@@ -83,35 +82,13 @@ public class CustomerService {
 
         request.setAttribute("searchedTickets", searchedTickets);
 
+        request.getRequestDispatcher("customer/oneway_ticket.jsp").forward(request, response);
+
+
     }
     public void jumpToOneWayTicket(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("customer/oneway_ticket.jsp");
-        dispatcher.forward(request, response);
-    }
-
-
-    //-------------------------------------- LOG IN ------------------------------------------
-    public void jumpToInfo(int userId,HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-        request.setAttribute("userId", userId);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/info.jsp");
-        dispatcher.forward(request, response);
-    }
-
-    //--------------------------------------------------------------------------------
-    public void jumpToTransactionHistory(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/transaction_history.jsp");
-        dispatcher.forward(request, response);
-    }
-
-    //--------------------------------------------------------------------------------
-    public void jumpToPaymentInfos(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/payment_info.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -150,7 +127,12 @@ public class CustomerService {
         customerDAO.updateCustomer(user);
         session.setAttribute("user", user);
 
-        jumpToInfo(user.getUserId(),request,response);
+
+        request.setAttribute("userId", user.getUserId());
+        request.getRequestDispatcher("customer/info.jsp").forward(request, response);
+
+
+//        jumpToInfo(user.getUserId(),request,response);
 
     }
 
