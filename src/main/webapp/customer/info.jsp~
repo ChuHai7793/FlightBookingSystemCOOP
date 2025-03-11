@@ -63,7 +63,7 @@
                             <option type="text" value="male">Male</option>
                             <option type="text" value="female">Female</option>
                         </select>
-                        <%--<input type="text" class="form-control" id="gender" name="gender" value="${sessionScope.user.gender}">--%>
+                        <%--                        <input type="text" class="form-control" id="gender" name="gender" value="${sessionScope.user.gender}">--%>
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Địa chỉ:</label>

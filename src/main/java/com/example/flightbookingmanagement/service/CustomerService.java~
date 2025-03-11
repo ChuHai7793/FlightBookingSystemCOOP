@@ -121,7 +121,6 @@ public class CustomerService {
         // Update thông tin user
         user.setFullName(name);
         user.setBirthDate(birth_date);
-        user.setGender(gender);
         user.setAddress(address);
         user.setEmail(email);
         user.setPhone(phone);
