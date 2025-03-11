@@ -3,6 +3,7 @@ package com.example.flightbookingmanagement.dao.impl;
 import com.example.flightbookingmanagement.config.DatabaseConfig;
 import com.example.flightbookingmanagement.dao.interfaces.IAdminDAO;
 import com.example.flightbookingmanagement.model.User;
+import com.example.flightbookingmanagement.service.SQLService;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -15,13 +16,13 @@ import static com.example.flightbookingmanagement.config.DatabaseConfig.getConne
 
 public class AdminDAOImpl implements IAdminDAO {
 
-    private static final String SELECT_ALL_STAFFS_SQL = "SELECT * FROM users WHERE role = 'staff'";
+//    private static final String SELECT_ALL_STAFFS_SQL = "SELECT * FROM users WHERE role = 'staff'";
     public AdminDAOImpl() {
     }
     public List<User> getAllStaffs() {
         List<User> staffs = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_STAFFS_SQL);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SQLService.SELECT_ALL_STAFFS_SQL);) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -48,9 +49,9 @@ public class AdminDAOImpl implements IAdminDAO {
 
     public boolean updateStaff(User user) throws SQLException {
         boolean rowUpdated;
-        String sql = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
+//        String sql = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(SQLService.UPDATE_ALL_STAFFS_SQL);) {
             statement.setString(1, user.getFullName());
             statement.setString(2, user.getBirthDate());
             statement.setString(3, user.getAddress());

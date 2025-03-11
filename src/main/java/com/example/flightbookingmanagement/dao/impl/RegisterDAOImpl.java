@@ -4,6 +4,7 @@ package com.example.flightbookingmanagement.dao.impl;
 import com.example.flightbookingmanagement.config.DatabaseConfig;
 import com.example.flightbookingmanagement.dao.interfaces.IRegister;
 import com.example.flightbookingmanagement.model.User;
+import com.example.flightbookingmanagement.service.SQLService;
 
 
 import java.sql.*;
@@ -43,9 +44,9 @@ public class RegisterDAOImpl implements IRegister {
 
     @Override
     public boolean isPhoneExisted(String phone) {
-        String query = "SELECT COUNT(*) FROM users WHERE phone = ?";
+//        String query = "SELECT COUNT(*) FROM users WHERE phone = ?";
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(SQLService.COUNT_USER_BY_PHONE)) {
             stmt.setString(1, phone);
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -62,9 +63,9 @@ public class RegisterDAOImpl implements IRegister {
 
     @Override
     public boolean isEmailExisted(String email) {
-        String query = "SELECT COUNT(*) FROM users WHERE email = ?";
+//        String query = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(SQLService.COUNT_USER_BY_EMAIL)) {
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next() && rs.getInt(1) > 0) {
@@ -82,8 +83,8 @@ public class RegisterDAOImpl implements IRegister {
                                            String email, String password) throws SQLException {
         int rowsInserted = -1;
         try (Connection conn = DatabaseConfig.getConnection()) {
-            String sql = "INSERT INTO users (full_name, phone, email, password, role) VALUES (?, ?, ?, ?, 'customer')";
-            try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+//            String sql = "INSERT INTO users (full_name, phone, email, password, role) VALUES (?, ?, ?, ?, 'customer')";
+            try (PreparedStatement stmt = conn.prepareStatement(SQLService.INSERT_USER_REGISTER, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, full_name);
                 stmt.setString(2, phone);
                 stmt.setString(3, email);
