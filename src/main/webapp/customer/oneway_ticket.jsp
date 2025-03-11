@@ -92,8 +92,7 @@
                         <th scope="col" class="text-center">Mã chuyến bay</th>
                         <th scope="col" class="text-center">Giờ</th>
                         <th scope="col" class="text-center">Giá</th>
-                        <%--                        <th scope="col" class="text-center">Chi tiết</th>--%>
-                        <%--                        <th scope="col" class="text-center">Đặt vé</th>--%>
+                        <th scope="col" class="text-center">Đặt vé</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -120,14 +119,17 @@
                                 $<fmt:setLocale value="vi_VN"/>
                                 <fmt:formatNumber value="${searchedTicket.price}" type="currency"/>
                             </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#detailModal">
+                                    Đặt vé
+                                </button>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
             </div>
-            <%--            <div class="text-center mt-3">--%>
-            <%--                <button type="button" class="btn btn-success">Xác Nhận</button>--%>
-            <%--            </div>--%>
+
         </div>
 
         <!-- Container mới bên phải -->
@@ -233,31 +235,58 @@
                 </div>
 
                 <!-- Bảng thông tin giá vé -->
-                <table class="table table-bordered mt-3">
-                    <thead class="table-light">
-                    <tr>
-                        <th>Loại hành khách</th>
-                        <th>Số lượng vé</th>
-                        <th>Giá mỗi vé</th>
-                        <th>Thuế và phí</th>
-                        <th>Tổng giá</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Người lớn</td>
-                        <td>1</td>
-                        <td>$400</td>
-                        <td>$100</td>
-                        <td>$500</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đặt vé ngay</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            </div>
+                <form action="../customer" method="post" accept-charset="UTF-8">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="userId" value="${user.userId}">
+
+                    <div class="row">
+                        <!-- Cột bên trái -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Tên:</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       value="${sessionScope.user.fullName}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Giới tính:</label>
+                                <select name="gender" id="gender" class="form-control">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Điện thoại:</label>
+                                <input type="tel" class="form-control" id="phone" name="phone"
+                                       value="${sessionScope.user.phone}">
+                            </div>
+                        </div>
+
+                        <!-- Cột bên phải -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="luggage" class="form-label">Hành lý kí gửi</label>
+                                <input type="text" class="form-control" id="luggage" name="luggage"
+                                       value="${sessionScope.user.birthDate}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                       value="${sessionScope.user.email}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="nationalId" class="form-label">CCCD</label>
+                                <input type="text" class="form-control" id="nationalId" name="nationalId"
+                                       value="${sessionScope.user.nationalId}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Buttons -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <input type="submit" class="btn btn-primary" value="Đặt vé">
+                    </div>
+                </form>
         </div>
     </div>
 </div>
