@@ -30,7 +30,6 @@ public class SQLService {
             "    AND f.arrival_location = ?\n" +
             "    AND DATE(f.departure_time) = ?;";
 
-
     public static final String UPDATE_USERS_SQL = "UPDATE users SET full_name = ?, birth_date = ?, gender = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
     public static final String UPDATE_PASSWORD_SQL = "UPDATE users SET password = ? WHERE user_id = ?";
     public static final String SELECT_ALL_STAFFS_SQL = "SELECT * FROM users WHERE role = 'staff'";
