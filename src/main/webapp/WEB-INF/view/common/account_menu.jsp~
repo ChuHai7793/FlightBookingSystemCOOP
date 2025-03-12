@@ -55,6 +55,7 @@
         <hr>
         <div class="menu-container">
             <a href="info.jsp?page=info" class="${param.page == 'info' ? 'active' : ''}">Thông tin cá nhân</a>
+            <a href="account_menu.jsp?page=payment" class="${param.page == 'payment' ? 'active' : ''}">Thanh toán</a>
             <a href="account_menu.jsp?page=history" class="${param.page == 'history' ? 'active' : ''}">Lịch sử giao dịch</a>
             <a href="change_password.jsp?page=change_password" class="${param.page == 'change_password' ? 'active' : ''}">Đổi mật khẩu</a>
 
@@ -64,7 +65,7 @@
             </c:if>
 
             <c:if test="${sessionScope.user.role == 'admin'}">
-                <a href="/admin/manage_staff.jsp?page=manage_staff" class="${param.page == 'manage_staff' ? 'active' : ''}"> Quản lý nhân viên</a>
+                <a href="account_menu.jsp?page=manage_staff" class="${param.page == 'manage_staff' ? 'active' : ''}"> Quản lý nhân viên</a>
                 <a href="account_menu.jsp?page=logs" class="${param.page == 'logs' ? 'active' : ''}">Quản lý Log</a>
             </c:if>
         </div>
