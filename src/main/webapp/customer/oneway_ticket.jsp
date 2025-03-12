@@ -120,7 +120,10 @@
                                 <fmt:formatNumber value="${searchedTicket.price}" type="currency"/>
                             </td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#detailModal">
+                                <button type="button" class="btn btn-link p-0"
+                                        onclick="saveTicketInfo('${searchedTicket.airlineName}',
+                                                '${searchedTicket.flight_code}','${searchedTicket.flight_time}');
+                                        showBookingForm();document.getElementById('flightCode').value = '${searchedTicket.flight_code}';">
                                     Đặt vé
                                 </button>
                             </td>
@@ -138,7 +141,7 @@
                 <div class="card">
                     <div class="card-body p-3"> <!-- Giảm padding card -->
                         <!-- Form tìm kiếm -->
-                        <form id="SearchForm" action="customer" method="GET">
+                        <form id="SearchForm" action="bookTicket" method="GET">
                             <input type="hidden" name="action" value="searchTicket">
 
                             <!-- Checkbox Sắp xếp -->
@@ -168,29 +171,11 @@
                                 <input type="date" class="form-control" id="leaving_date" name="leaving_date"
                                        value="${SearchedTicketForm.leaving_date}">
                             </div>
-                            <div class="mb-2">
-                                <label for="return_date" class="form-label">Ngày về</label>
-                                <input type="date" class="form-control" id="return_date" name="return_date"
-                                       value="${SearchedTicketForm.departure_location}">
-                            </div>
-                            <%-- Xet gia tri cua nguoi lon --%>
-                            <div class="mb-2">
-                                <label for="adult_num" class="form-label">Người lớn</label>
-                                <input type="number" class="form-control" id="adult_num" name="adult_num" min="0"
-                                       value="${SearchedTicketForm.adult_num}">
-                                <%-- Xet gia tri cua tre em --%>
-                            </div>
-                            <div class="mb-2">
-                                <label for="kid_num" class="form-label">Trẻ em</label>
-                                <input type="number" class="form-control" id="kid_num" name="kid_num" min="0"
-                                       value="${SearchedTicketForm.kid_num}">
-                            </div>
-                            <%-- Xet gia tri cua baby --%>
-                            <div class="mb-3">
-                                <label for="baby_num" class="form-label">Em bé</label>
-                                <input type="number" class="form-control" id="baby_num" name="baby_num" min="0"
-                                       value="${SearchedTicketForm.baby_num}">
-                            </div>
+<%--                            <div class="mb-2">--%>
+<%--                                <label for="return_date" class="form-label">Ngày về</label>--%>
+<%--                                <input type="date" class="form-control" id="return_date" name="return_date"--%>
+<%--                                       value="${SearchedTicketForm.departure_location}">--%>
+<%--                            </div>--%>
                             <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
                         </form>
                     </div>
@@ -201,7 +186,7 @@
 </div>
 
 <!-- Detail Form Pop-up (Modal) -->
-<div class="modal fade modal-lg" id="detailModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+<div class="modal fade modal-lg" id="bookingModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -210,34 +195,33 @@
             </div>
             <div class="modal-body">
                 <!-- Điểm đi và đến -->
-                <h5 class="text-center">Hà Nội → Hồ Chí Minh</h5>
+                <h5 class="text-center"> ${SearchedTicketForm.departure_location} → ${SearchedTicketForm.arrival_location}</h5>
 
                 <!-- Chia thành 3 phần -->
                 <div class="row text-center">
                     <!-- Phần 1: Hà Nội -->
                     <div class="col-md-4">
-                        <p><strong>Hà Nội</strong></p>
+                        <p><strong>${SearchedTicketForm.departure_location}</strong></p>
                         <p>08:00</p>
-                        <p>Nội Bài (HAN)</p>
                     </div>
                     <!-- Phần 2: HCM -->
                     <div class="col-md-4">
-                        <p><strong>Hồ Chí Minh</strong></p>
+                        <p><strong>${SearchedTicketForm.arrival_location}</strong></p>
                         <p>10:00</p>
-                        <p>Tân Sơn Nhất (SGN)</p>
                     </div>
                     <!-- Phần 3: Hãng & Chuyến bay -->
                     <div class="col-md-4">
-                        <p><strong>Vietnam Airlines</strong></p>
-                        <p>Chuyến bay: VN123</p>
-                        <p>Hạng vé: Phổ thông</p>
+                        <p id ="displayAirlineName"><strong> </strong></p>
+                        <p id ="displayFlightCode"></p>
+                        <p id ="displayFlightTime"></p>
+
                     </div>
                 </div>
 
                 <!-- Bảng thông tin giá vé -->
-                <form action="../customer" method="post" accept-charset="UTF-8">
-                    <input type="hidden" name="action" value="edit">
+                <form action="../bookTicket" method="post" accept-charset="UTF-8">
                     <input type="hidden" name="userId" value="${user.userId}">
+                    <input type="hidden" name="flightCode" id="flightCode" value="">
 
                     <div class="row">
                         <!-- Cột bên trái -->
@@ -248,11 +232,9 @@
                                        value="${sessionScope.user.fullName}">
                             </div>
                             <div class="mb-3">
-                                <label for="gender" class="form-label">Giới tính:</label>
-                                <select name="gender" id="gender" class="form-control">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
+                                <label for="nationalId" class="form-label">CCCD</label>
+                                <input type="text" class="form-control" id="nationalId" name="nationalId"
+                                       value="${sessionScope.user.nationalId}">
                             </div>
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Điện thoại:</label>
@@ -269,14 +251,16 @@
                                        value="${sessionScope.user.birthDate}">
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email:</label>
-                                <input type="email" class="form-control" id="email" name="email"
+                                <label for="seat_number" class="form-label">Số ghế</label>
+                                <input type="text" class="form-control" id="seat_number" name="seat_number"
                                        value="${sessionScope.user.email}">
                             </div>
                             <div class="mb-3">
-                                <label for="nationalId" class="form-label">CCCD</label>
-                                <input type="text" class="form-control" id="nationalId" name="nationalId"
-                                       value="${sessionScope.user.nationalId}">
+                                <label for="gender" class="form-label">Giới tính:</label>
+                                <select name="gender" id="gender" class="form-control">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -287,9 +271,11 @@
                         <input type="submit" class="btn btn-primary" value="Đặt vé">
                     </div>
                 </form>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- Bootstrap JS và Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -303,6 +289,17 @@
     document.getElementById("sortSelect").addEventListener("change", function () {
         document.getElementById("SearchForm").submit();
     });
+    function showBookingForm() {
+        var modal = new bootstrap.Modal(document.getElementById('bookingModal'));
+        modal.show();
+    }
+
+    function saveTicketInfo(airlineName, flightCode, flightTime) {
+        // Lấy dữ liệu từ sessionStorage và hiển thị trên trang
+        document.getElementById("displayAirlineName").innerText = airlineName|| "Không có dữ liệu";
+        document.getElementById("displayFlightCode").innerText = flightCode || "Không có dữ liệu";
+        document.getElementById("displayFlightTime").innerText = flightTime || "Không có dữ liệu";
+    }
 
 </script>
 

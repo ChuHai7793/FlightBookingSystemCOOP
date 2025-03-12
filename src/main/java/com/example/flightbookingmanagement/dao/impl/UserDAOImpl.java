@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.example.flightbookingmanagement.service.SQLService;
+import com.example.flightbookingmanagement.service.SQLConstants;
 
 public class UserDAOImpl implements IUserDAO {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImpl.class.getName());
@@ -20,7 +20,7 @@ public class UserDAOImpl implements IUserDAO {
     public int getUserIdFromLogin(String phone, String password) {
 
         try (Connection connection = DatabaseConfig.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(SQLService.LOGIN_QUERY)) {
+             PreparedStatement stmt = connection.prepareStatement(SQLConstants.LOGIN_QUERY)) {
             stmt.setString(1, phone);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
@@ -41,7 +41,7 @@ public class UserDAOImpl implements IUserDAO {
     public User getUserById(int userId) {
 //        String sql = "SELECT * FROM users WHERE user_id = ?";
         try (Connection connection = DatabaseConfig.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(SQLService.SELECT_ALL_WHERE_USERID)) {
+             PreparedStatement stmt = connection.prepareStatement(SQLConstants.SELECT_ALL_WHERE_USERID)) {
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
 

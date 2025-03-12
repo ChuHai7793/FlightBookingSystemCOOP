@@ -5,7 +5,7 @@ import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
 import com.example.flightbookingmanagement.dto.TransactionHistoryDTO;
 import com.example.flightbookingmanagement.dao.interfaces.ICustomerDAO;
 import com.example.flightbookingmanagement.model.User;
-import com.example.flightbookingmanagement.service.SQLService;
+import com.example.flightbookingmanagement.service.SQLConstants;
 
 
 import java.sql.*;
@@ -54,7 +54,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
     @Override
     public List<PaymentInfoDTO> selectPaymentInfo(int userId) throws SQLException {
         List<PaymentInfoDTO> payment_infos = new ArrayList<>();
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQLService.PAYMENT_INFO_SQL)) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQLConstants.PAYMENT_INFO_SQL)) {
             preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -77,7 +77,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
     @Override
     public List<TransactionHistoryDTO> selectTransactionHistory(int userId) throws SQLException {
         List<TransactionHistoryDTO> transaction_histories = new ArrayList<>();
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQLService.TRANSACTION_HISTORY_SQL)) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQLConstants.TRANSACTION_HISTORY_SQL)) {
             preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -102,7 +102,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
                                                                  String arrival_location,
                                                                  String departure_time) throws SQLException {
         List<SearchedTicketDTO> searchedTickets = new ArrayList<>();
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQLService.FLIGHTS_INFO_SQL)) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQLConstants.FLIGHTS_INFO_SQL)) {
             preparedStatement.setString(1, departure_location);
             preparedStatement.setString(2, arrival_location);
 
@@ -128,7 +128,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
 
     public boolean updateCustomer(User user) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(SQLService.UPDATE_USERS_SQL);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(SQLConstants.UPDATE_USERS_SQL);) {
             statement.setString(1, user.getFullName());
             statement.setString(2, user.getBirthDate());
             statement.setString(3, user.getGender());
@@ -145,7 +145,7 @@ public class CustomerDAOImpl implements ICustomerDAO {
 
     public boolean updatePassword(User user,String new_password) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(SQLService.UPDATE_PASSWORD_SQL);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(SQLConstants.UPDATE_PASSWORD_SQL);) {
             statement.setString(1,new_password);
             statement.setInt(2,user.getUserId());
 

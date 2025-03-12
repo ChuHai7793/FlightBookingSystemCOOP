@@ -144,7 +144,7 @@
                             <label class="form-check-label" for="one-way">Một chiều</label>
                         </div>
                         <label class="form-label">Điểm đi</label>
-                        <input type="text" class="form-control" name="departure_location" placeholder="Nhập điểm đi"
+                        <input type="text" class="form-control" name="departure_location" list="location-list" placeholder="Nhập điểm đi"
                                required>
                         <label class="form-label">Ngày đi</label>
                         <input type="date" class="form-control" name="leaving_date" required>
@@ -157,29 +157,20 @@
                             <label class="form-check-label" for="round-trip">Khứ hồi</label>
                         </div>
                         <label class="form-label">Điểm đến</label>
-                        <input type="text" class="form-control" name="arrival_location" placeholder="Nhập điểm đến"
+                        <input type="text" class="form-control" name="arrival_location" list="location-list" placeholder="Nhập điểm đến"
                                required>
 
                         <label class="form-label">Ngày về</label>
                         <input type="date" class="form-control" name="return_date" id="return-date" disabled>
                     </div>
                 </div>
-
-                <!-- Số lượng hành khách -->
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <label class="form-label">Người lớn</label>
-                        <input type="number" class="form-control" name="adult_num" min="1" value="1" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Trẻ em</label>
-                        <input type="number" class="form-control" name="kid_num" min="0" value="0">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Em bé</label>
-                        <input type="number" class="form-control" name="baby_num" min="0" value="0">
-                    </div>
-                </div>
+                <!-- Danh sách địa điểm -->
+                <datalist id="location-list">
+                    <option value="Noi Bai (HAN)">
+                    <option value="Tan Son Nhat (SGN)">
+                    <option value="Da Nang (DAD)">
+                    <option value="Cam Ranh (CXR)">
+                </datalist>
                 <!-- Nút tìm vé -->
                 <div class="text-center mt-3">
                     <button type="submit" class="btn btn-primary btn-lg">Tìm chuyến bay</button>

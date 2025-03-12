@@ -3,13 +3,11 @@ package com.example.flightbookingmanagement.dao.impl;
 import com.example.flightbookingmanagement.config.DatabaseConfig;
 import com.example.flightbookingmanagement.dao.interfaces.IAdminDAO;
 import com.example.flightbookingmanagement.model.User;
-import com.example.flightbookingmanagement.service.SQLService;
+import com.example.flightbookingmanagement.service.SQLConstants;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import static com.example.flightbookingmanagement.config.DatabaseConfig.getConnection;
 
@@ -23,7 +21,7 @@ public class AdminDAOImpl implements IAdminDAO {
     public List<User> getAllStaffs() {
         List<User> staffs = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQLService.SELECT_ALL_STAFFS_SQL);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SQLConstants.SELECT_ALL_STAFFS_SQL);) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -53,7 +51,7 @@ public class AdminDAOImpl implements IAdminDAO {
 //        String sql = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLService.UPDATE_ALL_STAFFS_SQL);) {
+             PreparedStatement statement = connection.prepareStatement(SQLConstants.UPDATE_ALL_STAFFS_SQL);) {
             statement.setString(1, user.getFullName());
             statement.setString(2, user.getBirthDate());
             statement.setString(3, user.getAddress());
@@ -69,7 +67,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
     public static boolean deleteStaff(int staffID) {
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SQLService.DELETE_USER_SQL);) {
+             PreparedStatement stmt = conn.prepareStatement(SQLConstants.DELETE_USER_SQL);) {
             stmt.setInt(1, staffID);
             return stmt.executeUpdate() > 0;
         } catch (SQLException ex) {

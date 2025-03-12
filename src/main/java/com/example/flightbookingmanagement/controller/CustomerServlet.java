@@ -49,7 +49,7 @@ public class CustomerServlet extends HttpServlet {
                     customerService.showAllPaymentInfos(req,resp);
                     break;
 
-                case "sortByName":
+                case "vx":
 
                     break;
                 default:
