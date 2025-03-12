@@ -10,6 +10,13 @@
             <a href="../customer?action=checkPaymentInfo" class="d-block mb-2 text-primary">Thanh toán</a>
             <a href="../customer?action=checkTransactionHistory" class="d-block mb-2 text-primary">Lịch sử giao dịch</a>
             <a href="change_password.jsp" class="d-block mb-2 text-primary">Đổi mật khẩu</a>
+            <c:if test="${sessionScope.user.role == 'staff'}">
+                <a href="../admin?action=manageStaff" class="d-block mb-2 text-primary">Quản lý nhân viên</a>
+            </c:if>
+
+            <c:if test="${sessionScope.user.role == 'admin'}">
+                <a href="../customer?action=checkTransactionHistory" class="d-block mb-2 text-primary">Quản lý Log</a>
+            </c:if>
         </div>
 
         <!-- Nội dung chính -->

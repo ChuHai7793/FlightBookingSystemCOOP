@@ -1,22 +1,49 @@
-
 <%@ include file="/WEB-INF/view/common/header.jsp" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">--%>
-<%--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>--%>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+<style>
+    .wellcome {
+        display: flex;
 
+        flex-direction: column;
+        align-items: center; /* Căn giữa theo chiều ngang */
+        text-align: center; /* Đảm bảo chữ được căn giữa */
+    }
+
+    .logo-title {
+        font-size: 50px;
+        display: flex;
+        align-items: center; /* Giữ logo và text cùng hàng */
+        gap: 10px;
+    }
+
+    .logo-title img {
+        height: 100px;
+
+
+        width: 100px;
+    }
+</style>
 <div class="main-content">
-    <!-- Banner -->
-    <div class="banner">
+    <div class="wellcome">
         <div class="text-center">
-            <h1>Chào mừng đến với TWOR AIRLINE</h1>
+            <div class="logo-title">
+                <span><strong>CHÀO MỪNG ĐẾN VỚI TWOR AIRLINE</strong>
+                <img src="/assets/img/trans_bg.png" alt="Logo"><br>
+                </span>
+            </div>
             <p>Đặt vé nhanh chóng, dễ dàng với giá tốt nhất.</p>
+            </div>
         </div>
     </div>
     <!-- Modal Đăng Nhập -->
-<%--    <div class="modal fade ${not empty errorMessage ? 'show' : ''}" id="loginModal" tabindex="-1"--%>
-<%--         aria-labelledby="loginModalLabel" aria-hidden="${not empty errorMessage ? 'false' : 'true'}"--%>
-<%--         style="${not empty errorMessage ? 'display: block;' : ''}">--%>
+    <%--    <div class="modal fade ${not empty errorMessage ? 'show' : ''}" id="loginModal" tabindex="-1"--%>
+    <%--         aria-labelledby="loginModalLabel" aria-hidden="${not empty errorMessage ? 'false' : 'true'}"--%>
+    <%--         style="${not empty errorMessage ? 'display: block;' : ''}">--%>
 
     <div class="modal fade ${not empty errorMessage ? 'show' : ''}" id="loginModal" tabindex="-1"
          aria-labelledby="loginModalLabel" aria-hidden="${not empty errorMessage ? 'false' : 'true'}">
@@ -66,8 +93,8 @@
         </div>
     </div>
     <!--Model Đăng Ký-->
-<%--    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel"--%>
-<%--         aria-hidden="true">--%>
+    <%--    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel"--%>
+    <%--         aria-hidden="true">--%>
     <div class="modal fade ${not empty registerErrorMessage ? 'show' : ''}" id="registerModal" tabindex="-1"
          aria-labelledby="registerModal" aria-hidden="${not empty registerErrorMessage ? 'false' : 'true'}">
 
@@ -164,22 +191,13 @@
                         <input type="date" class="form-control" name="return_date" id="return-date" disabled>
                     </div>
                 </div>
-
-                <!-- Số lượng hành khách -->
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <label class="form-label">Người lớn</label>
-                        <input type="number" class="form-control" name="adult_num" min="1" value="1" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Trẻ em</label>
-                        <input type="number" class="form-control" name="kid_num" min="0" value="0">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Em bé</label>
-                        <input type="number" class="form-control" name="baby_num" min="0" value="0">
-                    </div>
-                </div>
+                <%--                <!-- Danh sách địa điểm -->--%>
+                <%--                <datalist id="location-list">--%>
+                <%--                    <option value="Noi Bai (HAN)">--%>
+                <%--                    <option value="Tan Son Nhat (SGN)">--%>
+                <%--                    <option value="Da Nang (DAD)">--%>
+                <%--                    <option value="Cam Ranh (CXR)">--%>
+                <%--                </datalist>--%>
                 <!-- Nút tìm vé -->
                 <div class="text-center mt-3">
                     <button type="submit" class="btn btn-primary btn-lg">Tìm chuyến bay</button>
@@ -196,6 +214,15 @@
     <a href="customer/oneway_ticket.jsp"> chuyển hướng one way</a><br>
     <a href="customer/roundtrip_ticket.jsp"> chuyển hướng roundtrip</a><br>
     <script>
+        var airports = ["Nội Bài (HAN)", "Tân Sơn Nhất (SGN)", "Đà Nẵng (DAD)", "Cam Ranh (CXR)"];
+
+        $("input[name='departure_location']").typeahead({
+            source: airports
+        });
+
+        $("input[name='arrival_location']").typeahead({
+            source: airports
+        });
         const ticketTypeRadios = document.querySelectorAll('input[name="ticket_type"]');
         const returnDateInput = document.getElementById("return-date");
         ticketTypeRadios.forEach(radio => {
