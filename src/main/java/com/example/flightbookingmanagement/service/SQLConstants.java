@@ -35,4 +35,5 @@ public class SQLConstants {
     public static final String SELECT_ALL_STAFFS_SQL = "SELECT * FROM users WHERE role = 'staff'";
     public static final String UPDATE_ALL_STAFFS_SQL = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
     public static final String DELETE_USER_SQL = "DELETE FROM users WHERE user_id = ?";
+    public static final String GET_DAYLY_STAFF_REPORT = "SELECT * FROM users WHERE role = 'staff' AND DATE(created_at) = ?";
 }

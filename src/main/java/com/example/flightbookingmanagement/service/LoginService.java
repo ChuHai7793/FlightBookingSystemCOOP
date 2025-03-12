@@ -35,18 +35,9 @@ public class LoginService {
             User user = userDAO.getUserById(user_id);
             String destination_page;
 
-            // --------------------- Access Control ---------------------
-            if (Objects.equals(user.getRole(), "admin")){
-                destination_page = "admin/info.jsp";
-            } else if (Objects.equals(user.getRole(), "customer")){
-                destination_page = "index.jsp";
-            } else {
-                destination_page = "staff/info.jsp";
-            }
-
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            response.sendRedirect(destination_page);
+            response.sendRedirect("index.jsp");
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
