@@ -27,6 +27,13 @@
                 <li class="nav-item"><a class="nav-link" href="/home">Trang chủ</a></li>
                 <li class="nav-item"><a class="nav-link" href="flights.jsp">Đặt vé</a></li>
                 <li class="nav-item"><a class="nav-link" href="contact.jsp">Liên hệ</a></li>
+                <c:if test="${sessionScope.user.role == 'staff'}">
+                    <li class="nav-item"><a class="nav-link" href="/staff/report.jsp">Gửi báo cáo</a></li>
+                </c:if>
+
+                <c:if test="${sessionScope.user.role == 'admin'}">
+                    <li class="nav-item"><a class="nav-link" href="/admin/view_reports.jsp">Xem báo cáo</a></li>
+                </c:if>
             </ul>
             </ul>
             <div class="ms-3">

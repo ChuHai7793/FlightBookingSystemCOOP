@@ -1,4 +1,3 @@
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/view/common/header.jsp" %>
@@ -20,58 +19,59 @@
 </head>
 <body>
 <!-- Main Content -->
-<div class="container-fluid mt-3">
+<div class="container mt-4">
     <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-3 border p-3">
-            <a href="../admin/info.jsp" class="d-block mb-2 text-primary">Thông tin admin</a>
-            <a href="../admin?action=manageStaff" class="d-block mb-2 text-primary">Quản lý nhân viên</a>
-            <a href="../admin?action=checkTransactionHistory" class="d-block mb-2 text-primary">Thống kê</a>
-            <a href="../customer?action=checkTransactionHistory" class="d-block mb-2 text-primary">Quản lý Log</a>
+        <!-- Menu tài khoản: 25% -->
+        <div class="col-md-3">
+            <%@ include file="/WEB-INF/view/common/account_menu.jsp" %>
         </div>
 
-
-        <div class="col-md-9 right-section border p-3">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-
-                <tr>
-                    <th scope="col" class="text-center">Mã nhân viên</th>
-                    <th scope="col" class="text-center">Tên</th>
-                    <th scope="col" class="text-center">Địa chỉ</th>
-                    <th scope="col" class="text-center">Giới tính</th>
-                    <th scope="col" class="text-center">Ngày sinh</th>
-                    <th scope="col" class="text-center">Email</th>
-                    <th scope="col" class="text-center">Phone</th>
-                    <th scope="col" class="text-center">Sửa</th>
-                    <th scope="col" class="text-center">Xóa</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="staff" items="${staffs}">
-                    <tr>
-                        <td class="text-center">${staff.userId}</td>
-                        <td class="text-center">${staff.fullName}</td>
-                        <td class="text-center">${staff.address}</td>
-                        <td class="text-center">${staff.gender}</td>
-                        <td class="text-center">${staff.birthDate}</td>
-                        <td class="text-center">${staff.email}</td>
-                        <td class="text-center">${staff.phone}</td>
-                        <td class="text-center">
-                            <a href="../admin?action=edit&staffId=${staff.userId}">Chỉnh sửa</a>
-                        </td>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-primary" onclick="deleteStaff(${staff.userId})">
-                                Xóa
-                            </button>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+        <!-- Nội dung chính: 75% -->
+        <div class="col-md-9 border p-3">
+            <div class="row">
+                <div class="col-md-12 right-section border p-3">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="text-center">Mã nhân viên</th>
+                            <th scope="col" class="text-center">Tên</th>
+                            <th scope="col" class="text-center">Địa chỉ</th>
+                            <th scope="col" class="text-center">Giới tính</th>
+                            <th scope="col" class="text-center">Ngày sinh</th>
+                            <th scope="col" class="text-center">Email</th>
+                            <th scope="col" class="text-center">Phone</th>
+                            <th scope="col" class="text-center">Sửa</th>
+                            <th scope="col" class="text-center">Xóa</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="staff" items="${staffs}">
+                            <tr>
+                                <td class="text-center">${staff.userId}</td>
+                                <td class="text-center">${staff.fullName}</td>
+                                <td class="text-center">${staff.address}</td>
+                                <td class="text-center">${staff.gender}</td>
+                                <td class="text-center">${staff.birthDate}</td>
+                                <td class="text-center">${staff.email}</td>
+                                <td class="text-center">${staff.phone}</td>
+                                <td class="text-center">
+                                    <a href="../admin?action=edit&staffId=${staff.userId}">Chỉnh sửa</a>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-primary" onclick="deleteStaff(${staff.userId})">
+                                        Xóa
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- Modal chỉnh sửa thông tin -->
 <div class="modal fade" id="editInfo" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">

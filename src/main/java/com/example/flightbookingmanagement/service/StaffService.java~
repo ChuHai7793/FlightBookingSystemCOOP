@@ -1,0 +1,10 @@
+package com.example.flightbookingmanagement.service;
+
+import com.example.flightbookingmanagement.model.User;
+
+import java.util.List;
+
+public class StaffService {
+    public List<User> getDailyStaffReport(String date) {
+    }
+}
