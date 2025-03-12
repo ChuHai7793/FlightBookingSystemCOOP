@@ -61,7 +61,8 @@ public class CustomerService {
         SearchedTicketFormDTO SearchedTicketForm = new SearchedTicketFormDTO(ticket_type,departure_location,arrival_location,
                                                     leaving_date,adult_num,kid_num,baby_num);
 
-        request.setAttribute("SearchedTicketForm", SearchedTicketForm);
+        HttpSession session = request.getSession(false);
+        session.setAttribute("SearchedTicketForm", SearchedTicketForm);
 
     }
 
@@ -80,16 +81,11 @@ public class CustomerService {
 
         TicketsSorter.sortSearchedTicketsByOrder(searchedTickets, orderBy);
 
-        request.setAttribute("searchedTickets", searchedTickets);
+        HttpSession session = request.getSession(false);
+        session.setAttribute("searchedTickets", searchedTickets);
 
-        request.getRequestDispatcher("customer/oneway_ticket.jsp").forward(request, response);
-
-
-    }
-    public void jumpToOneWayTicket(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/oneway_ticket.jsp");
-        dispatcher.forward(request, response);
+//        request.getRequestDispatcher("customer/oneway_ticket.jsp").forward(request, response);
+        response.sendRedirect("customer/oneway_ticket.jsp");
     }
 
     //--------------------------------------------------------------------------------
@@ -129,12 +125,8 @@ public class CustomerService {
         customerDAO.updateCustomer(user);
         session.setAttribute("user", user);
 
-
         request.setAttribute("userId", user.getUserId());
         request.getRequestDispatcher("customer/info.jsp").forward(request, response);
-
-
-//        jumpToInfo(user.getUserId(),request,response);
 
     }
 

@@ -1,6 +1,6 @@
 package com.example.flightbookingmanagement.service;
 
-public class SQLService {
+public class SQLConstants {
     public static final String LOGIN_QUERY = "SELECT user_id FROM users WHERE phone = ? AND password = ?";
     public static final String SELECT_ALL_WHERE_USERID = "SELECT * FROM users WHERE user_id = ?";
     public static final String COUNT_USER_BY_PHONE = "SELECT COUNT(*) FROM users WHERE phone = ?";
