@@ -3,14 +3,19 @@ package com.example.flightbookingmanagement.service;
 import com.example.flightbookingmanagement.config.DatabaseConfig;
 import com.example.flightbookingmanagement.dao.impl.CustomerDAOImpl;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
+import com.example.flightbookingmanagement.model.Seat;
 import com.example.flightbookingmanagement.model.Ticket;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.*;
 
 import static com.example.flightbookingmanagement.config.DatabaseConfig.getConnection;
 
@@ -59,12 +64,12 @@ public class BookingService {
                 rs = stmt.executeQuery();
 
                 if (rs.next() && rs.getInt("available_seats") > 0) {
-                    // 2️⃣ Trừ số ghế trống
+                    // 2. Trừ số ghế trống
                     stmt = conn.prepareStatement("UPDATE flights SET available_seats = available_seats - 1 WHERE flight_id = ?");
                     stmt.setInt(1, flightId);
                     stmt.executeUpdate();
 
-                    // 3️⃣ Thêm vé vào bảng tickets
+                    // 3. Thêm vé vào bảng tickets
                     stmt = conn.prepareStatement(INSERT_TICKET,Statement.RETURN_GENERATED_KEYS);
                     stmt.setInt(1, user_id);
                     stmt.setInt(2, flightId);
@@ -77,13 +82,13 @@ public class BookingService {
                     int ticketId = 0;
                     if (rs.next()) {
                         ticketId = rs.getInt(1);
-                        // 4️⃣ Thêm giao dịch thanh toán
+                        // 4. Thêm giao dịch thanh toán
                         stmt = conn.prepareStatement(INSERT_PAYMENT);
                         stmt.setInt(1, ticketId);
                         stmt.setInt(2, price);
                         stmt.setString(3, "pending");
                         stmt.executeUpdate();
-                        // 5️⃣ Xác nhận giao dịch
+                        // 5. Xác nhận giao dịch
                         conn.commit();
                         response.getWriter().println("BOOKING SUCCESSFULLY!");
                     } else {
@@ -108,5 +113,54 @@ public class BookingService {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setSeatList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // Tạo danh sách ghế
+        Map<Integer,Seat> seatMap = new HashMap<>();
+
+        for (int i = 1; i <= 26; i++) { // Ví dụ tạo 10 ghế
+
+            seatMap.put(i,new Seat( i, "available"));
+        }
+
+//        List<Seat> seatList = new ArrayList<>();
+
+        String flight_code = request.getParameter("flightCode");
+        String airlineName = request.getParameter("airlineName");
+        String flight_time = request.getParameter("flightTime");
+        String price = request.getParameter("price");
+
+        // Kết nối đến database để lấy danh sách ghế
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT t.seat_number, t.status \n" +
+                                                             "FROM tickets t\n" +
+                                                             "JOIN flights f on t.flight_id = f.flight_id\n" +
+                                                             "WHERE flight_code = ?;")) {
+
+            ps.setString(1,flight_code); // Lấy mã chuyến bay từ request
+            ResultSet rs = ps.executeQuery();
+            String status;
+            int seat_number;
+            while (rs.next()) {
+                seat_number= rs.getInt("seat_number");
+                status = rs.getString("status");
+                Seat seat = new Seat(seat_number,status);
+//                seatList.add(seat);
+
+                if ((seatMap.containsKey(seat_number)&& Objects.equals(status, "booked"))) {
+                    seatMap.put(seat_number, new Seat(seat_number,status));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        SearchedTicketDTO chosenSearchedTicket = new SearchedTicketDTO(airlineName, flight_code,  flight_time, price);
+        HttpSession session = request.getSession(false);
+        session.setAttribute("flightCode",flight_code);
+        session.setAttribute("seatMap", seatMap);
+        session.setAttribute("chosenSearchedTicket", chosenSearchedTicket);
     }
 }

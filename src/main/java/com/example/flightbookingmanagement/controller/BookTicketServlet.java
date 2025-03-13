@@ -23,9 +23,28 @@ public class BookTicketServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        System.out.println(action);
+        switch (action) {
+            case "showBookingModal":
+                bookingService.setSeatList(request, response);
+                break;
+
+            case "bookTicket":
+                bookingService.bookTicket(request, response);
+                break;
 
 
-        bookingService.bookTicket(request, response);
+            case "vx":
+
+                break;
+            default:
+
+                break;
+        }
 
     }
 }
