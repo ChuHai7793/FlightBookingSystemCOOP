@@ -230,7 +230,7 @@
                 <form action="../bookTicket" method="post" accept-charset="UTF-8">
                     <input type="hidden" name="action" value="bookTicket">
                     <input type="hidden" name="userId" value="${user.userId}">
-                    <input type="hidden" name="flightCode" id="flightCode" value="">
+                    <input type="hidden" name="flightCode" id="flightCode" value="${sessionScope.flightCode}">
 
                     <div class="row">
                         <!-- Cột bên trái -->
@@ -238,7 +238,7 @@
                             <div class="mb-3">
                                 <label for="seat_number" class="form-label">Số ghế</label>
                                 <input type="text" class="form-control" id="seat_number" name="seat_number"
-                                       placeholder="Nhập số ghế">
+                                       placeholder="Chọn số ghế" readonly >
                             </div>
                         </div>
 
@@ -246,8 +246,13 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="luggage" class="form-label">Hành lý kí gửi</label>
-                                <input type="text" class="form-control" id="luggage" name="luggage"
-                                       value="${sessionScope.user.birthDate}">
+
+                                <select class="form-select" id="luggage" name="luggage">
+                                    <option value="20">20kg</option>
+                                    <option value="30">30kg</option>
+                                    <option value="50">50kg</option>
+                                </select>
+
                             </div>
                         </div>
                     </div>
