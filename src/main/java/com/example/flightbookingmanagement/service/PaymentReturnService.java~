@@ -1,0 +1,52 @@
+package com.example.flightbookingmanagement.service;
+
+import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.*;
+
+public class PaymentReturnService {
+    private static final String VNP_HASH_SECRET = "X55GLPDDIK85CA2IQ8Z29KJ70A1EDHHA";
+    private static final Logger logger = LoggerFactory.getLogger(PaymentReturnService.class);
+
+    public boolean verifyPayment(Map<String, String> fields) {
+        String vnpSecureHash = fields.get("vnp_SecureHash");
+        logger.info("🔹 Received vnp_SecureHash: {}", vnpSecureHash);
+
+        String generatedSecureHash = generateHash(fields);
+        logger.info("🔹 Generated SecureHash: {}", generatedSecureHash);
+
+        return generatedSecureHash.equalsIgnoreCase(vnpSecureHash);
+    }
+
+    private String generateHash(Map<String, String> fields) {
+        Map<String, String> clonedFields = new HashMap<>(fields);
+        clonedFields.remove("vnp_SecureHash");
+
+        List<String> fieldNames = new ArrayList<>(clonedFields.keySet());
+        Collections.sort(fieldNames);
+
+        StringBuilder hashData = new StringBuilder();
+        for (String fieldName : fieldNames) {
+            hashData.append(fieldName).append('=').append(clonedFields.get(fieldName)).append('&');
+        }
+        hashData.deleteCharAt(hashData.length() - 1); // Xóa dấu & cuối cùng
+
+        return hmacSHA512(VNP_HASH_SECRET, hashData.toString());
+    }
+
+    private static String hmacSHA512(String key, String data) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA512");
+            SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "HmacSHA512");
+            mac.init(secretKey);
+            byte[] hash = mac.doFinal(data.getBytes());
+            return new String(Hex.encodeHex(hash)).toUpperCase();
+        } catch (Exception e) {
+            throw new RuntimeException("Error while hashing", e);
+        }
+    }
+}

@@ -1,0 +1,24 @@
+package com.example.flightbookingmanagement.controller;
+
+import com.example.flightbookingmanagement.service.VNPayService;
+
+import java.io.IOException;
+import java.util.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/payment")
+public class PaymentServlet extends HttpServlet {
+    private final VNPayService vnPayService = new VNPayService();
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String amount = request.getParameter("amount");
+        String clientIp = request.getRemoteAddr();
+        String paymentUrl = vnPayService.generatePaymentUrl(ticketId, price, request);
+        response.sendRedirect(paymentUrl);
+    }
+}

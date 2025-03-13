@@ -31,25 +31,22 @@ public class BookingService {
             "VALUES (?, ?, ?, ?, 'booked')";
 
     public void bookTicket(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         String flight_code = request.getParameter("flightCode");
         int user_id = Integer.parseInt(request.getParameter("userId"));
         int seatNumber = Integer.parseInt(request.getParameter("seat_number"));
-        System.out.println(flight_code);
-        System.out.println(user_id);
-        System.out.println(seatNumber);
-        int price = 2000000; //  giá vé duoc tinh tu bang flight va luggage
+        int price = 2000000; // Giá vé, sau này có thể lấy từ DB
 
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        int rowsInserted = -1;
         int flightId = -1;
+        int ticketId = -1;
+
         try {
             conn = DatabaseConfig.getConnection();
-            conn.setAutoCommit(false); // Tắt tự động commit
+            conn.setAutoCommit(false);
 
-            // 1. Lấy flight_id và departure_date tương ứng flight_code
+            // 1️⃣ Lấy flight_id và departure_date
             stmt = conn.prepareStatement(SELECT_FLIGHT_ID_TRAVEL_DATE);
             stmt.setString(1, flight_code);
             rs = stmt.executeQuery();
@@ -58,48 +55,49 @@ public class BookingService {
                 flightId = rs.getInt("flight_id");
                 Date travelDate = rs.getDate("departure_date");
 
-                // 1️⃣ Kiểm tra ghế trống
+                // 2️⃣ Kiểm tra ghế trống
                 stmt = conn.prepareStatement("SELECT available_seats FROM flights WHERE flight_id = ? FOR UPDATE");
                 stmt.setInt(1, flightId);
                 rs = stmt.executeQuery();
 
                 if (rs.next() && rs.getInt("available_seats") > 0) {
-                    // 2. Trừ số ghế trống
+                    // 3️⃣ Trừ số ghế trống
                     stmt = conn.prepareStatement("UPDATE flights SET available_seats = available_seats - 1 WHERE flight_id = ?");
                     stmt.setInt(1, flightId);
                     stmt.executeUpdate();
 
-                    // 3. Thêm vé vào bảng tickets
-                    stmt = conn.prepareStatement(INSERT_TICKET,Statement.RETURN_GENERATED_KEYS);
+                    // 4️⃣ Thêm vé vào bảng tickets
+                    stmt = conn.prepareStatement(INSERT_TICKET, Statement.RETURN_GENERATED_KEYS);
                     stmt.setInt(1, user_id);
                     stmt.setInt(2, flightId);
                     stmt.setDate(3, travelDate);
                     stmt.setInt(4, seatNumber);
-                    rowsInserted = stmt.executeUpdate();
+                    stmt.executeUpdate();
 
-//                Lấy ID (khóa chính tự động tăng) của bản ghi vừa được chèn vào cơ sở dữ liệu.
                     rs = stmt.getGeneratedKeys();
-                    int ticketId = 0;
                     if (rs.next()) {
                         ticketId = rs.getInt(1);
-                        // 4. Thêm giao dịch thanh toán
+
+                        // 5️⃣ Thêm thanh toán với trạng thái "pending"
                         stmt = conn.prepareStatement(INSERT_PAYMENT);
                         stmt.setInt(1, ticketId);
                         stmt.setInt(2, price);
                         stmt.setString(3, "pending");
                         stmt.executeUpdate();
-                        // 5. Xác nhận giao dịch
+
+                        // 6️⃣ Xác nhận giao dịch
                         conn.commit();
-                        response.getWriter().println("BOOKING SUCCESSFULLY!");
-                    } else {
-                        response.getWriter().println("OUT OF SEAT!");
+
+                        // 7️⃣ Chuyển hướng sang VNPay
+                        String paymentUrl = VNPayService.generatePaymentUrl(ticketId, price, request);
+                        response.sendRedirect(paymentUrl);
+                        return;
                     }
                 }
             }
-
         } catch (Exception e) {
             try {
-                if (conn != null) conn.rollback(); // Hủy giao dịch nếu lỗi
+                if (conn != null) conn.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -108,12 +106,13 @@ public class BookingService {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-                if (conn != null) conn.setAutoCommit(true); // Bật lại AutoCommit
+                if (conn != null) conn.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     public void setSeatList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

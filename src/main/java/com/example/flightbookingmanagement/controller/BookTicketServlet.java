@@ -36,8 +36,6 @@ public class BookTicketServlet extends HttpServlet {
             case "bookTicket":
                 bookingService.bookTicket(request, response);
                 break;
-
-
             case "vx":
 
                 break;
