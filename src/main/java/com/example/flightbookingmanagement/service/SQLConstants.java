@@ -36,4 +36,34 @@ public class SQLConstants {
     public static final String UPDATE_ALL_STAFFS_SQL = "UPDATE users SET full_name = ?, birth_date = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
     public static final String DELETE_USER_SQL = "DELETE FROM users WHERE user_id = ?";
     public static final String GET_DAYLY_STAFF_REPORT = "SELECT * FROM users WHERE role = 'staff' AND DATE(created_at) = ?";
+
+    public static final String SELECT_FLIGHT_ID_TRAVEL_DATE = "SELECT f.flight_id, DATE(f.departure_time) as departure_date\n" +
+            "FROM flights f\n" +
+            "WHERE flight_code = ?;";
+    public static final String INSERT_PAYMENT="INSERT INTO payments (ticket_id, amount, payment_status)\n " +
+            "VALUES (?, ?, ?)";
+
+    public static final String INSERT_TICKET ="INSERT INTO tickets (user_id, flight_id, travel_date, seat_number, status)\n " +
+            "VALUES (?, ?, ?, ?, 'booked')";
+
+
+    public static final String GET_TOTAL_PRICE = "SELECT\n" +
+            "    t.ticket_id AS Ticket_ID,\n" +
+            "    f.price AS Gia_Ve,\n" +
+            "    COALESCE(l.price, 0) AS Gia_Hanh_Ly,\n" +
+            "    (f.price + COALESCE(l.price, 0)) AS total_price\n" +
+            "FROM tickets t\n" +
+            "JOIN flights f ON t.flight_id = f.flight_id\n" +
+            "LEFT JOIN luggage l ON t.ticket_id = l.ticket_id\n" +
+            "WHERE t.ticket_id = ?;";
+
+    public static final String INSERT_LUGGAGE = "INSERT INTO luggage (ticket_id,weight) values (?,?);";
+
+    public static final String SELECT_AVAILABLE_SEATS ="SELECT available_seats FROM flights WHERE flight_id = ? FOR UPDATE;";
+
+    public static final String UPDATE_AVAILABLE_SEATS_AFTER_BOOKING ="UPDATE flights SET available_seats = available_seats - 1 WHERE flight_id = ?;";
+    public static final String SELECT_SEAT_NUM_STATUS_BY_FLIGHT_CODE ="SELECT t.seat_number, t.status \n" +
+                                                                        "FROM tickets t\n" +
+                                                                        "JOIN flights f on t.flight_id = f.flight_id\n" +
+                                                                        "WHERE flight_code = ?;";
 }

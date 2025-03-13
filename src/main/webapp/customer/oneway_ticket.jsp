@@ -216,9 +216,6 @@
                     </div>
                     <!-- Phần 3: Hãng & Chuyến bay -->
                     <div class="col-md-4">
-<%--                        <p id ="displayAirlineName"><strong> </strong></p>--%>
-<%--                        <p id ="displayFlightCode"></p>--%>
-<%--                        <p id ="displayFlightTime"></p>--%>
                         <p ><strong> ${sessionScope.chosenSearchedTicket.airlineName}</strong></p>
                         <p >${sessionScope.chosenSearchedTicket.flight_code}</p>
                         <p >${sessionScope.chosenSearchedTicket.flight_time}</p>
@@ -248,9 +245,9 @@
                                 <label for="luggage" class="form-label">Hành lý kí gửi</label>
 
                                 <select class="form-select" id="luggage" name="luggage">
-                                    <option value="20">20kg</option>
-                                    <option value="30">30kg</option>
-                                    <option value="50">50kg</option>
+                                    <option value="20kg">20kg</option>
+                                    <option value="30kg">30kg</option>
+                                    <option value="50kg">50kg</option>
                                 </select>
 
                             </div>
