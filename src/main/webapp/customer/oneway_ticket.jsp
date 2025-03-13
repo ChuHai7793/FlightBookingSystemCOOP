@@ -75,6 +75,13 @@
             color: black !important;
         }
 
+        .seat {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -121,9 +128,12 @@
                             </td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-link p-0"
-                                        onclick="saveTicketInfo('${searchedTicket.airlineName}',
-                                                '${searchedTicket.flight_code}','${searchedTicket.flight_time}');
-                                        showBookingForm();document.getElementById('flightCode').value = '${searchedTicket.flight_code}';">
+<%--                                        onclick="saveTicketInfo('${searchedTicket.airlineName}',--%>
+<%--                                                '${searchedTicket.flight_code}','${searchedTicket.flight_time}');--%>
+<%--                                        showBookingForm();document.getElementById('flightCode').value = '${searchedTicket.flight_code}';"> --%>
+                                        onclick="saveAndShowModal('${searchedTicket.flight_code}','${searchedTicket.airlineName}',
+                                                '${searchedTicket.flight_time}','${searchedTicket.price}');
+                                                document.getElementById('flightCode').value = '${searchedTicket.flight_code}';">
                                     Đặt vé
                                 </button>
                             </td>
@@ -141,7 +151,7 @@
                 <div class="card">
                     <div class="card-body p-3"> <!-- Giảm padding card -->
                         <!-- Form tìm kiếm -->
-                        <form id="SearchForm" action="bookTicket" method="GET">
+                        <form id="SearchForm" action="../customer" method="GET">
                             <input type="hidden" name="action" value="searchTicket">
 
                             <!-- Checkbox Sắp xếp -->
@@ -171,11 +181,6 @@
                                 <input type="date" class="form-control" id="leaving_date" name="leaving_date"
                                        value="${SearchedTicketForm.leaving_date}">
                             </div>
-<%--                            <div class="mb-2">--%>
-<%--                                <label for="return_date" class="form-label">Ngày về</label>--%>
-<%--                                <input type="date" class="form-control" id="return_date" name="return_date"--%>
-<%--                                       value="${SearchedTicketForm.departure_location}">--%>
-<%--                            </div>--%>
                             <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
                         </form>
                     </div>
@@ -211,15 +216,19 @@
                     </div>
                     <!-- Phần 3: Hãng & Chuyến bay -->
                     <div class="col-md-4">
-                        <p id ="displayAirlineName"><strong> </strong></p>
-                        <p id ="displayFlightCode"></p>
-                        <p id ="displayFlightTime"></p>
+<%--                        <p id ="displayAirlineName"><strong> </strong></p>--%>
+<%--                        <p id ="displayFlightCode"></p>--%>
+<%--                        <p id ="displayFlightTime"></p>--%>
+                        <p ><strong> ${sessionScope.chosenSearchedTicket.airlineName}</strong></p>
+                        <p >${sessionScope.chosenSearchedTicket.flight_code}</p>
+                        <p >${sessionScope.chosenSearchedTicket.flight_time}</p>
 
                     </div>
                 </div>
 
                 <!-- Bảng thông tin giá vé -->
                 <form action="../bookTicket" method="post" accept-charset="UTF-8">
+                    <input type="hidden" name="action" value="bookTicket">
                     <input type="hidden" name="userId" value="${user.userId}">
                     <input type="hidden" name="flightCode" id="flightCode" value="">
 
@@ -227,19 +236,9 @@
                         <!-- Cột bên trái -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="name" class="form-label">Tên:</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                       value="${sessionScope.user.fullName}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="nationalId" class="form-label">CCCD</label>
-                                <input type="text" class="form-control" id="nationalId" name="nationalId"
-                                       value="${sessionScope.user.nationalId}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Điện thoại:</label>
-                                <input type="tel" class="form-control" id="phone" name="phone"
-                                       value="${sessionScope.user.phone}">
+                                <label for="seat_number" class="form-label">Số ghế</label>
+                                <input type="text" class="form-control" id="seat_number" name="seat_number"
+                                       placeholder="Nhập số ghế">
                             </div>
                         </div>
 
@@ -250,18 +249,6 @@
                                 <input type="text" class="form-control" id="luggage" name="luggage"
                                        value="${sessionScope.user.birthDate}">
                             </div>
-                            <div class="mb-3">
-                                <label for="seat_number" class="form-label">Số ghế</label>
-                                <input type="text" class="form-control" id="seat_number" name="seat_number"
-                                       value="${sessionScope.user.email}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="gender" class="form-label">Giới tính:</label>
-                                <select name="gender" id="gender" class="form-control">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
 
@@ -271,6 +258,34 @@
                         <input type="submit" class="btn btn-primary" value="Đặt vé">
                     </div>
                 </form>
+
+                <!-- Sơ đồ ghế -->
+                <h5 class="mt-4">Chọn ghế</h5>
+                <div class="seat-map">
+                    <div class="d-flex flex-wrap gap-2">
+<%--                        <c:forEach var="seat" items="${seatList}">--%>
+<%--                            <c:choose>--%>
+<%--                                <c:when test="${seat.status == 'booked'}">--%>
+<%--                                    <button class="btn btn-danger seat" disabled>${seat.seatNumber}</button>--%>
+<%--                                </c:when>--%>
+<%--                                <c:otherwise>--%>
+<%--                                    <button class="btn btn-outline-primary seat" onclick="selectSeat('${seat.seatNumber}')">${seat.seatNumber}</button>--%>
+<%--                                </c:otherwise>--%>
+<%--                            </c:choose>--%>
+<%--                        </c:forEach>--%>
+
+                        <c:forEach var="seat" items="${seatMap.values()}">
+                            <c:choose>
+                                <c:when test="${seat.status == 'booked'}">
+                                    <button class="btn btn-danger seat seat-booked" disabled>${seat.seatNumber}</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="btn btn-outline-primary seat seat-available" onclick="selectSeat('${seat.seatNumber}')">${seat.seatNumber}</button>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -286,19 +301,87 @@
         crossorigin="anonymous"></script>
 
 <script>
+
+    window.onload = function() {
+        if (sessionStorage.getItem("openModal") === "true") {
+            // Xóa trạng thái để tránh mở lại nhiều lần
+            sessionStorage.removeItem("openModal");
+            // Hiển thị modal
+            showBookingModal();
+        }
+    };
+
     document.getElementById("sortSelect").addEventListener("change", function () {
         document.getElementById("SearchForm").submit();
     });
-    function showBookingForm() {
+    function showBookingModal() {
         var modal = new bootstrap.Modal(document.getElementById('bookingModal'));
         modal.show();
     }
 
-    function saveTicketInfo(airlineName, flightCode, flightTime) {
-        // Lấy dữ liệu từ sessionStorage và hiển thị trên trang
-        document.getElementById("displayAirlineName").innerText = airlineName|| "Không có dữ liệu";
-        document.getElementById("displayFlightCode").innerText = flightCode || "Không có dữ liệu";
-        document.getElementById("displayFlightTime").innerText = flightTime || "Không có dữ liệu";
+    // function saveTicketInfo(airlineName, flightCode, flightTime) {
+    //     // Lấy dữ liệu từ sessionStorage và hiển thị trên trang
+    //     document.getElementById("displayAirlineName").innerText = airlineName|| "Không có dữ liệu";
+    //     document.getElementById("displayFlightCode").innerText = flightCode || "Không có dữ liệu";
+    //     document.getElementById("displayFlightTime").innerText = flightTime || "Không có dữ liệu";
+    // }
+
+    function saveAndShowModal(flightCode,airlineName,flightTime,price) {
+        // Xóa trước khi đặt lại để tránh lỗi giữ giá trị cũ
+        // sessionStorage.removeItem("openModal");
+        sessionStorage.setItem("openModal", "true");
+        // Gửi dữ liệu lên Servlet
+        fetch('/bookTicket', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: 'flightCode=' + encodeURIComponent(flightCode)+
+                '&airlineName=' + encodeURIComponent(airlineName)+
+                '&flightTime=' + encodeURIComponent(flightTime)+
+                '&price=' + encodeURIComponent(price)+
+                '&action=showBookingModal'
+        })
+            // .then(response => response.json()) // Nhận phản hồi từ Servlet
+            .then(() => {
+                // Như ấn nút refresh
+                window.location.href = window.location.href;
+            })
+            // .then(()=>{
+            //     // Hiển thị Modal
+            //     showBookingModal();
+            // })
+            .catch(error => console.error('Lỗi:', error));
+    }
+
+    function selectSeat(seatNumber) {
+        // Xóa ghế đã chọn trước đó (nếu có)
+        document.querySelectorAll(".seat-selected").forEach(seat => {
+            console.log(seat.classList);
+            seat.classList.add("seat-available");
+            seat.classList.add("btn-outline-primary");
+            seat.classList.remove("seat-booked");
+            seat.classList.remove("btn-success");
+            seat.classList.remove("seat-selected");
+
+        });
+        // Chọn ghế mới
+        var seatElements = document.querySelectorAll(".seat-available"); // Lấy tất cả ghế có class "seat-available"
+
+        var seatElement = Array.from(seatElements).find(seat => seat.textContent.trim() === seatNumber);
+
+        if (seatElement) {
+            console.log(seatElement.classList);
+            seatElement.classList.add("seat-selected");
+            seatElement.classList.add("seat-booked");
+            seatElement.classList.add("btn-success");
+            seatElement.classList.remove("seat-available");
+            seatElement.classList.remove("btn-outline-primary");
+        }
+
+
+        // Gán số ghế vào ô input
+        document.getElementById("seat_number").value = seatNumber;
     }
 
 </script>

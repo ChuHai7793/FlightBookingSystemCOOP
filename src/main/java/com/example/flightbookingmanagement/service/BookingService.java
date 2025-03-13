@@ -3,14 +3,19 @@ package com.example.flightbookingmanagement.service;
 import com.example.flightbookingmanagement.config.DatabaseConfig;
 import com.example.flightbookingmanagement.dao.impl.CustomerDAOImpl;
 import com.example.flightbookingmanagement.dto.SearchedTicketDTO;
+import com.example.flightbookingmanagement.model.Seat;
 import com.example.flightbookingmanagement.model.Ticket;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.*;
 
 import static com.example.flightbookingmanagement.config.DatabaseConfig.getConnection;
 
@@ -108,5 +113,60 @@ public class BookingService {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setSeatList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // Tạo danh sách ghế
+        Map<Integer,Seat> seatMap = new HashMap<>();
+
+        for (int i = 1; i <= 26; i++) { // Ví dụ tạo 10 ghế
+
+            seatMap.put(i,new Seat( i, "available"));
+        }
+
+        List<Seat> seatList = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) { // Ví dụ tạo 10 ghế
+            String status = (i % 3 == 0) ? "booked" : "available"; // Ghế thứ 3, 6, 9 bị đặt trước
+//            seatList.add(new Seat("A" + i, status));
+        }
+
+
+
+        String flight_code = request.getParameter("flightCode");
+        String airlineName = request.getParameter("airlineName");
+        String flight_time = request.getParameter("flightTime");
+        String price = request.getParameter("price");
+
+        // Kết nối đến database để lấy danh sách ghế
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT t.seat_number, t.status \n" +
+                                                             "FROM tickets t\n" +
+                                                             "JOIN flights f on t.flight_id = f.flight_id\n" +
+                                                             "WHERE flight_code = ?;")) {
+
+            ps.setString(1,flight_code); // Lấy mã chuyến bay từ request
+            ResultSet rs = ps.executeQuery();
+            String status;
+            int seat_number;
+            while (rs.next()) {
+                seat_number= rs.getInt("seat_number");
+                status = rs.getString("status");
+                Seat seat = new Seat(seat_number,status);
+                seatList.add(seat);
+
+                if ((seatMap.containsKey(seat_number)&& Objects.equals(status, "booked"))) {
+                    seatMap.put(seat_number, new Seat(seat_number,status));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        SearchedTicketDTO chosenSearchedTicket = new SearchedTicketDTO(airlineName, flight_code,  flight_time, price);
+        HttpSession session = request.getSession(false);
+        session.setAttribute("seatList", seatList);
+        session.setAttribute("seatMap", seatMap);
+        session.setAttribute("chosenSearchedTicket", chosenSearchedTicket);
     }
 }
