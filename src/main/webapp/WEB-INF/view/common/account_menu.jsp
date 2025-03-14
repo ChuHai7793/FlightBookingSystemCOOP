@@ -64,7 +64,7 @@
             </c:if>
 
             <c:if test="${sessionScope.user.role == 'admin'}">
-                <a href="/admin/manage_staff.jsp?page=manage_staff" class="${param.page == 'manage_staff' ? 'active' : ''}"> Quản lý nhân viên</a>
+                <a href="/admin?action=manageStaff"> Quản lý nhân viên</a>
                 <a href="account_menu.jsp?page=logs" class="${param.page == 'logs' ? 'active' : ''}">Quản lý Log</a>
             </c:if>
         </div>
