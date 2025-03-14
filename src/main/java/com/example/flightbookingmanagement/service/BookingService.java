@@ -94,7 +94,9 @@ public class BookingService {
                             stmt.executeUpdate();
                             // 5. Xác nhận giao dịch
                             connection.commit();
-                            response.getWriter().println("BOOKING SUCCESSFULLY!");
+                            String paymentUrl = VNPayService.generatePaymentUrl(ticketId, total_price, request);
+                            response.sendRedirect(paymentUrl);
+//                            response.getWriter().println("BOOKING SUCCESSFULLY!");
                         }
                     } else {
                         response.getWriter().println("OUT OF SEAT!");
